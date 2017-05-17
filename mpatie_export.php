@@ -82,8 +82,15 @@ function addMedia(&$o) {
                     addMediaByKey($media, $state, 'imgUrl', $key, $stateName);
                     break;
                 case 'video':
+                case 'video360pre':
                     addMediaByKey($media, $state, 'thumbnail', $key, $stateName);
                     addMediaByKey($media, $state, 'url', $key, $stateName, "video");
+                    break;
+                case 'audio':
+                    addMediaByKey($media, $state, 'audio', $key, $stateName, "audio");
+                    break;
+                case 'redbutton':
+                    addMediaByKey($media, $state, 'img', $key, $stateName);
                     break;
                 case 'launcher':
                     //TODO
