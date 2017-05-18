@@ -65,7 +65,7 @@ class ImportExport {
 
             <div style="display: inline-block;">
                 <form action="<?php echo str_replace("//","/", $_SERVER['REQUEST_URI']) . '&action=import'; ?>"
-                      id="page-form" method="post" enctype="multipart/form-data" target="_top" >
+                      id="page-form" method="post" enctype="multipart/form-data" target="import-target" >
 
                     <input id="page-fileinput" type="file" name="page" style="display: none;"  />
                     <button type="button" id="page-btn" style="display:inline;vertical-align:center;">Import new page</button>
