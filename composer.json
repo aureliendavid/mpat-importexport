@@ -1,0 +1,18 @@
+{
+    "name" : "mpat/mpat-importexport",
+    "description" : "MPAT import and export pages",
+    "version" : "1.0.0",
+    "license" : "GPL2",
+    "authors" : [{
+        "name" : "Aurelien David",
+        "email" : "adavid@telecom-paristech.fr"
+    }
+    ],
+    "repositories" : [
+        {
+            "type" : "vcs",
+            "url" : "git@github.com:aureliendavid/mpat-importexport.git"
+        }
+    ],
+    "type" : "wordpress-plugin"
+}
