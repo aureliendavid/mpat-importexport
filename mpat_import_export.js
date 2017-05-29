@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 
-console.log("About to define ctx");
+//console.log("About to define ctx");
 
 function getCtx(id) {
 

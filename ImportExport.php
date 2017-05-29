@@ -121,8 +121,10 @@ class ImportExport {
                             $zones = $o['page_layout']['meta']['mpat_content']['layout'];
                             $content = $o['page']['meta']['mpat_content']['content'];
 
-                            echo "<script>\nconsole.log('calling ctx');";
+                            echo "<script>\n";
                             echo "var ctx = window.getCtx('$id');\n";
+                            echo "ctx.fillStyle = '#CCCCCC';\n";
+                            echo "ctx.fillRect(0,0,128,72);\n";
 
                             foreach ($zones as $z) {
 
