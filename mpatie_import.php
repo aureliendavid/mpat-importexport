@@ -2,29 +2,52 @@
 use MPAT\ImportExport\ImportExport;
 namespace MPAT\ImportExport;
 
+
+
 function handle_import() {
 
 	if ( isset($_FILES['layout']) ) {
 		$json = file_get_contents( $_FILES['layout']['tmp_name'] );
 		$layout = json_decode($json, true);
-		$meta = $layout["page_layout"]["meta"]["mpat_content"];
-		$title = $layout["page_layout"]['post_title'];
 
-		if (($old = get_page_by_title($title, ARRAY_A, "page_layout")) && $old["post_status"] == "publish")
-		{
-			echo "Layout $title already exists\n";
-			exit();
+		if (isset($page["page_layout"])) {
+
+			$title = $layout["page_layout"]['post_title'];
+			$id = importSingleLayout($layout);
+
+			if ($id == -1) {
+				echo "Layout $title already exists\n";
+				exit();
+			}
+			else {
+				echo "Imported page $title with id=$id\n";
+			}
+
 		}
+		else {
 
-		$page = array(
-			'post_type' => 'page_layout',
-			'post_status' => 'publish',
-			'post_slug' => 'page_layout',
-			'post_title' => $title,
-			'meta_input' => $layout["page_layout"]["meta"]
-		);
-		$page_id = @wp_insert_post($page);
-		echo "Imported layout $title with id=$page_id\n";
+			$ok = 0;
+			$ko = 0;
+
+			foreach($layout as $l) {
+
+				$id=-1;
+				if (isset($l["page_layout"])) {
+					$id = importSingleLayout($l);
+				}
+
+				if ($id == -1) {
+					$ko++;
+				}
+				else {
+					$ok++;
+				}
+
+			}
+
+			echo "$ok layouts imported and $ko errors\n";
+
+		}
 
 		echo '<script type="text/javascript">window.top.location.reload();</script>';
 
@@ -75,9 +98,33 @@ function handle_import() {
 		}
 
 
-		echo '<script type="text/javascript">window.top.location.reload();</script>';
+		echo '<script type="text/javascript">window.top.location = window.top.location.href;</script>';
 
 	}
+
+}
+
+
+function importSingleLayout(&$layout) {
+
+	$meta = $layout["page_layout"]["meta"]["mpat_content"];
+	$title = $layout["page_layout"]['post_title'];
+
+	if (($old = get_page_by_title($title, ARRAY_A, "page_layout")) && $old["post_status"] == "publish") {
+		return -1;
+	}
+
+
+	$page = array(
+		'post_type' => 'page_layout',
+		'post_status' => 'publish',
+		'post_slug' => 'page_layout',
+		'post_title' => $title,
+		'meta_input' => $layout["page_layout"]["meta"]
+	);
+	$page_id = @wp_insert_post($page);
+
+	return $page_id;
 
 }
 

@@ -61,14 +61,14 @@ class ImportExport {
 
         <script src="<?php echo plugin_dir_url(__FILE__); ?>mpat_import_export.js" > </script>
 
-        <div id="importzone">
+        <div id="importzone" style="display: inline-block;">
 
             <div style="display: inline-block;">
                 <form action="<?php echo str_replace("//","/", $_SERVER['REQUEST_URI']) . '&action=import'; ?>"
                       id="page-form" method="post" enctype="multipart/form-data" target="import-target" >
 
                     <input id="page-fileinput" type="file" name="page" style="display: none;"  />
-                    <button type="button" id="page-btn" style="display:inline;vertical-align:center;">Import new page(s)</button>
+                    <button type="button" id="page-btn" style="display:inline;vertical-align:center;">Import new pages</button>
 
                 </form>
             </div>
@@ -77,13 +77,22 @@ class ImportExport {
                       id="layout-form" method="post" enctype="multipart/form-data" target="import-target" >
 
                     <input id="layout-fileinput" type="file" name="layout" style="display: none;"  />
-                    <button type="button" id="layout-btn" style="display:inline;vertical-align:center;">Import new layout</button>
+                    <button type="button" id="layout-btn" style="display:inline;vertical-align:center;">Import new layouts</button>
 
                 </form>
             </div>
-            <div style="display: inline-block;">
-                <iframe id="import-target" name="import-target" scrolling="no" style="width:80%;height:25px;border:0;display:inline;"></iframe>
+            <div style="display: inline-block;width:40%;">
+                <iframe id="import-target" name="import-target" scrolling="no" style="width:100%;height:25px;border:0;display:inline;"></iframe>
             </div>
+        </div>
+
+        <form style="display: inline; margin: 0; padding: 0;" method="post" action="<?php echo str_replace("//","/", $_SERVER['REQUEST_URI']) . '&action=export'; ?>" id="exportform" >
+
+        <div style="display: inline-block;" id="export-toolbar">
+            <button type="submit" id="btn-exportall" name="exportall" value="1" title="Export all pages"><span class='dashicons dashicons-media-archive'></span></button>
+            <button type="submit" disabled id="btn-addmedia" name="addmedia" value="1" title="Export selected pages and media"><span class='dashicons dashicons-media-video'></span></button>
+            <button type="submit" disabled id="btn-exportpages" name="exportpages" value="1" title="Export selected pages"><span class='dashicons dashicons-media-document'></span></button>
+            <button type="submit" disabled id="btn-exportlayouts" name="exportlayouts" value="1" title="Export layouts of selected pages"><span class='dashicons dashicons-media-default'></span></button>
         </div>
 
         <div id="exportzone">
@@ -91,6 +100,7 @@ class ImportExport {
             <table class="iexport-table">
                 <thead>
                 <tr>
+                    <td><input type="checkbox" onchange="checkAll(this);"></td>
                     <td>Page</td>
                     <td>Layout</td>
                     <td>Map</td>
@@ -107,6 +117,8 @@ class ImportExport {
                         $id = $o['page']['ID'];
 
                         echo "<tr>";
+
+                        echo "<td><input type='checkbox' name='pageid[]' value='$id'></td>\n";
 
                         echo "<td>" . $o['page']['post_title'] . "</td>";
 
@@ -152,12 +164,10 @@ class ImportExport {
                 </tbody>
             </table>
             <br />
-            <a href='<?php echo str_replace("//","/", $_SERVER['REQUEST_URI']); ?>&action=export&pageid=all' title='All Pages'>Export all pages</a>
-            &nbsp;::&nbsp;
-            <a href='<?php echo str_replace("//","/", $_SERVER['REQUEST_URI']); ?>&action=export&pageid=all&addmedia=1' title='All Pages + Media'>Export all pages and media</a>
 
         </div>
 
+        </form>
 
 <?php
     }
@@ -178,10 +188,14 @@ class ImportExport {
     }
 
 
-    static function getAll() {
+    static function getAll($ids=null) {
         $main_pages = array();
 
-        $pages = get_pages();
+        if ($ids)
+            $pages = get_pages( array('include' => $ids ) );
+        else
+            $pages = get_pages();
+
         foreach ($pages as $page) {
             $page = $page->to_array();
             $meta = get_post_meta($page['ID'], 'mpat_content', true);

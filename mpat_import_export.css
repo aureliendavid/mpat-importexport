@@ -31,6 +31,12 @@
     vertical-align: center;
     padding-right: 4px;
 }
+#export-toolbar .dashicons {
+    font-size:22px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
 
 #importzone {
     padding: 10px;

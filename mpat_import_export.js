@@ -16,11 +16,70 @@ document.addEventListener("DOMContentLoaded", function(){
       document.getElementById("layout-fileinput").value = "";
   }
 
+  var checkboxes = document.getElementsByName("pageid[]");
+  for (var i = 0; i < checkboxes.length; i++) {
+
+    checkboxes[i].onchange = function() {
+
+      var shouldDisable = true;
+      var ch = document.getElementsByName("pageid[]");
+      for (var i = 0; i < ch.length; i++) {
+        if (ch[i].checked) {
+          shouldDisable = false;
+          break;
+        }
+      }
+
+      document.getElementById("btn-exportpages").disabled = shouldDisable;
+      document.getElementById("btn-addmedia").disabled = shouldDisable;
+      document.getElementById("btn-exportlayouts").disabled = shouldDisable;
+
+    };
+  }
+
 
 });
 
 
-//console.log("About to define ctx");
+function fireChange(e) {
+
+  if (document.createEvent) {
+    event = document.createEvent("HTMLEvents");
+    event.initEvent("change", true, true);
+  } else {
+    event = document.createEventObject();
+    event.eventType = "change";
+  }
+
+  event.eventName = "change";
+
+  if (document.createEvent) {
+    e.dispatchEvent(event);
+  } else {
+    e.fireEvent("on" + event.eventType, event);
+  }
+
+}
+
+function checkAll(ele) {
+     var checkboxes = document.getElementsByName("pageid[]")
+     if (ele.checked) {
+         for (var i = 0; i < checkboxes.length; i++) {
+             if (checkboxes[i].type == 'checkbox') {
+                 checkboxes[i].checked = true;
+                 fireChange(checkboxes[i]);
+             }
+         }
+     } else {
+         for (var i = 0; i < checkboxes.length; i++) {
+             if (checkboxes[i].type == 'checkbox') {
+                 checkboxes[i].checked = false;
+                 fireChange(checkboxes[i]);
+             }
+         }
+     }
+ }
+
 
 function getCtx(id) {
 

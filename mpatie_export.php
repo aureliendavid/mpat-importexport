@@ -7,59 +7,87 @@ function handle_export() {
 
 	header("Content-Type: application/json");
 
-	$all = ImportExport::getAll();
 
 	if ( isset($_GET['layoutid']) ) {
 
 	    $layoutId = $_GET['layoutid'];
 
-	    $layout = get_post( $layoutId );
-	    if ($layout && $layout->post_type == "page_layout") {
+        $layout = get_post( $layoutId );
+        if ($layout && $layout->post_type == "page_layout") {
+            if ($l = ImportExport::getLayoutFromObject($layout)) {
+                $filename = $layout->post_title;
+                header("Content-disposition: attachment; filename=$filename.mpat-layout");
+                echo json_encode($l);
+            }
+        }
 
-	        if ($l = ImportExport::getLayoutFromObject($layout)) {
+    }
+    else if ( isset($_POST['exportall']) ) {
 
-	            $filename = $layout->post_title;
-	            header("Content-disposition: attachment; filename=$filename.mpat-layout");
-	            echo json_encode($l);
-	        }
-	    }
+        $pages = ImportExport::getAll();
+        header("Content-disposition: attachment; filename=all-pages.mpat-page");
+        echo json_encode($pages);
 
-	}
+    }
+    else if ( isset($_POST['pageid']) ) {
+
+        $pages = ImportExport::getAll( $_POST['pageid'] );
+
+        if ( isset($_POST['addmedia']) && $_POST['addmedia'] == "1" ) {
+            foreach ($pages as &$o) {
+                addMedia($o);
+            }
+            unset($o);
+            header("Content-disposition: attachment; filename=selected-pages.mpat-page");
+            echo json_encode($pages);
+        }
+
+        else if ( isset($_POST['exportpages']) && $_POST['exportpages'] == "1" ) {
+
+            header("Content-disposition: attachment; filename=selected-pages.mpat-page");
+            echo json_encode($pages);
+
+        }
+        else if ( isset($_POST['exportlayouts']) && $_POST['exportlayouts'] == "1" ) {
+
+            $layouts = array();
+            $done = array();
+
+            foreach ($pages as $o) {
+                if (isset($o["page_layout"]) && isset($o["page_layout"]["ID"]) && !in_array($o["page_layout"]["ID"], $done)) {
+                    array_push($layouts, array( "page_layout" => $o["page_layout"]));
+                    array_push($done, $o["page_layout"]["ID"]);
+                }
+            }
+
+            header("Content-disposition: attachment; filename=selected-layouts.mpat-layout");
+            echo json_encode($layouts);
+        }
+
+    }
 	else if ( isset($_GET['pageid']) ) {
 
 	    $pageId = $_GET['pageid'];
 
-        if ($pageId=="all") {
+        $pages = ImportExport::getAll( array($pageId) );
 
-            if ( isset($_GET['addmedia']) && $_GET['addmedia'] == "1" ) {
-                foreach ($all as &$o) {
-                    addMedia($o);
-                }
-                unset($o);
-            }
+	    foreach ($pages as $o) {
+	        if (isset($o['page']) && isset($o['page']['ID']) &&  $o['page']['ID'] == $pageId) {
 
-            header("Content-disposition: attachment; filename=all-pages.mpat-page");
-            echo json_encode($all);
-        }
-        else {
-    	    foreach ($all as $o) {
-    	        if (isset($o['page']) && isset($o['page']['ID']) &&  $o['page']['ID'] == $pageId) {
+	            if ( isset($_GET['addmedia']) && $_GET['addmedia'] == "1" ) {
+	                addMedia($o);
+	            }
 
 
-    	            if ( isset($_GET['addmedia']) && $_GET['addmedia'] == "1" ) {
-    	                addMedia($o);
-    	            }
+	            $filename = ( isset($o["page"]["post_title"]) ? $o["page"]["post_title"] : "$pageId" );
 
+	            header("Content-disposition: attachment; filename=$filename.mpat-page");
+	            echo json_encode($o);
+	            break;
 
-    	            $filename = ( isset($o["page"]["post_title"]) ? $o["page"]["post_title"] : "$pageId" );
+	        }
+	    }
 
-    	            header("Content-disposition: attachment; filename=$filename.mpat-page");
-    	            echo json_encode($o);
-    	            break;
-
-    	        }
-    	    }
-        }
 	}
 
 }
