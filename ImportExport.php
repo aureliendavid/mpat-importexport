@@ -68,7 +68,7 @@ class ImportExport {
                       id="page-form" method="post" enctype="multipart/form-data" target="import-target" >
 
                     <input id="page-fileinput" type="file" name="page" style="display: none;"  />
-                    <button type="button" id="page-btn" style="display:inline;vertical-align:center;">Import new page</button>
+                    <button type="button" id="page-btn" style="display:inline;vertical-align:center;">Import new page(s)</button>
 
                 </form>
             </div>
@@ -151,6 +151,11 @@ class ImportExport {
 ?>
                 </tbody>
             </table>
+            <br />
+            <a href='<?php echo str_replace("//","/", $_SERVER['REQUEST_URI']); ?>&action=export&pageid=all' title='All Pages'>Export all pages</a>
+            &nbsp;::&nbsp;
+            <a href='<?php echo str_replace("//","/", $_SERVER['REQUEST_URI']); ?>&action=export&pageid=all&addmedia=1' title='All Pages + Media'>Export all pages and media</a>
+
         </div>
 
 

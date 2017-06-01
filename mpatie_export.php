@@ -29,23 +29,37 @@ function handle_export() {
 
 	    $pageId = $_GET['pageid'];
 
-	    foreach ($all as $o) {
-	        if (isset($o['page']) && isset($o['page']['ID']) &&  $o['page']['ID'] == $pageId) {
+        if ($pageId=="all") {
+
+            if ( isset($_GET['addmedia']) && $_GET['addmedia'] == "1" ) {
+                foreach ($all as &$o) {
+                    addMedia($o);
+                }
+                unset($o);
+            }
+
+            header("Content-disposition: attachment; filename=all-pages.mpat-page");
+            echo json_encode($all);
+        }
+        else {
+    	    foreach ($all as $o) {
+    	        if (isset($o['page']) && isset($o['page']['ID']) &&  $o['page']['ID'] == $pageId) {
 
 
-	            if ( isset($_GET['addmedia']) && $_GET['addmedia'] == "1" ) {
-	                addMedia($o);
-	            }
+    	            if ( isset($_GET['addmedia']) && $_GET['addmedia'] == "1" ) {
+    	                addMedia($o);
+    	            }
 
 
-	            $filename = ( isset($o["page"]["post_title"]) ? $o["page"]["post_title"] : "$pageId" );
+    	            $filename = ( isset($o["page"]["post_title"]) ? $o["page"]["post_title"] : "$pageId" );
 
-	            header("Content-disposition: attachment; filename=$filename.mpat-page");
-	            echo json_encode($o);
-	            break;
+    	            header("Content-disposition: attachment; filename=$filename.mpat-page");
+    	            echo json_encode($o);
+    	            break;
 
-	        }
-	    }
+    	        }
+    	    }
+        }
 	}
 
 }
@@ -87,7 +101,7 @@ function addMedia(&$o) {
                     addMediaByKey($media, $state, 'url', $key, $stateName, "video");
                     break;
                 case 'audio':
-                    addMediaByKey($media, $state, 'audio', $key, $stateName, "audio");
+                    addMediaByKey($media, $state, 'url', $key, $stateName, "audio");
                     break;
                 case 'redbutton':
                     addMediaByKey($media, $state, 'img', $key, $stateName);
