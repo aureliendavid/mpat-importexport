@@ -38,8 +38,13 @@ document.addEventListener("DOMContentLoaded", function(){
   }
 
 
+
+
 });
 
+function fake_submit(id) {
+  document.getElementById("frm-" + id).click();
+}
 
 function fireChange(e) {
 

@@ -3,6 +3,48 @@ use MPAT\ImportExport\ImportExport;
 namespace MPAT\ImportExport;
 
 
+function dfs_links($content, &$links, $path) {
+
+    if (!is_array($content)) {
+
+        if (preg_match("/page:\/\/(\d+)/", $content, $m)) {
+            array_push($links, array(
+                                "path" => $path,
+                                "text" => $content,
+                                "id"   => $m[1]
+            ));
+        }
+
+    }
+    else {
+
+        foreach ($content as $k => $v) {
+
+            array_push($path, $k);
+
+            dfs_links($v, $links, $path);
+
+            array_pop($path);
+        }
+    }
+
+}
+
+function addPageLinks(&$page) {
+
+
+    $content = $page['page']['meta']['mpat_content']['content'];
+
+    $links = array();
+    $path = array();
+
+    dfs_links($content, $links, $path);
+
+    $page["page_links"] = $links;
+
+
+}
+
 function handle_export() {
 
 	header("Content-Type: application/json");
@@ -25,6 +67,10 @@ function handle_export() {
     else if ( isset($_POST['exportall']) ) {
 
         $pages = ImportExport::getAll();
+        foreach ($pages as &$p) {
+            addPageLinks($p);
+        }
+        unset($p);
         header("Content-disposition: attachment; filename=all-pages.mpat-page");
         echo json_encode($pages);
 
@@ -38,12 +84,20 @@ function handle_export() {
                 addMedia($o);
             }
             unset($o);
+            foreach ($pages as &$p) {
+                addPageLinks($p);
+            }
+            unset($p);
             header("Content-disposition: attachment; filename=selected-pages.mpat-page");
             echo json_encode($pages);
         }
 
         else if ( isset($_POST['exportpages']) && $_POST['exportpages'] == "1" ) {
 
+            foreach ($pages as &$p) {
+                addPageLinks($p);
+            }
+            unset($p);
             header("Content-disposition: attachment; filename=selected-pages.mpat-page");
             echo json_encode($pages);
 

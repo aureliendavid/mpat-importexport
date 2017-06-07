@@ -24,6 +24,7 @@
 
 .iexport-table canvas {
     /*border: 1px solid blue;*/
+    background: #CCCCCC;
 }
 
 .iexport-table .dashicons {
@@ -31,20 +32,53 @@
     vertical-align: center;
     padding-right: 4px;
 }
-#export-toolbar .dashicons {
+
+.iexport-toolbar .dashicons {
     font-size:22px;
     padding-left: 2px;
     padding-right: 2px;
 }
 
+.iexport-toolbar {
+    display: inline-block;
+}
+.iexport-toolbar .dashicons {
+    font-size:22px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+.iexport-toolbar button {
+    height: 34px;
+}
+#importzone button {
+    height: 34px;
+}
+#exporttb button {
+    height: 34px;
+}
 
 #importzone {
-    padding: 10px;
+    padding-left: 10px;
 }
+
+
+
 #exportzone {
-    padding: 10px;
+    padding-left: 10px;
 }
 
-#exportbtns {
+#msgzone {
+    display: inline-block;
+    padding-left: 15px;
+    vertical-align: bottom;
+    font-family: monospace;
+    font-size:16px;
 
+
+}
+
+#toolbarzone {
+    width: 100%;
+    white-space:nowrap;
+    overflow:hidden;
 }

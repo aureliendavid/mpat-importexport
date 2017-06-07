@@ -16,11 +16,10 @@ function handle_import() {
 			$id = importSingleLayout($layout);
 
 			if ($id == -1) {
-				echo "Layout $title already exists\n";
-				exit();
+				return "Layout $title already exists.\n";
 			}
 			else {
-				echo "Imported page $title with id=$id\n";
+				return "Imported page $title with id=$id.\n";
 			}
 
 		}
@@ -45,11 +44,11 @@ function handle_import() {
 
 			}
 
-			echo "$ok layouts imported and $ko errors\n";
+			return "Added $ok layouts and $ko already existed.\n";
 
 		}
 
-		echo '<script type="text/javascript">window.top.location.reload();</script>';
+		//echo '<script type="text/javascript">window.top.location.reload();</script>';
 
 
 	}
@@ -64,11 +63,10 @@ function handle_import() {
 			$id = importSinglePage($page);
 
 			if ($id == -1) {
-				echo "Page $title already exists\n";
-				exit();
+				return "Page $title already exists\n";
 			}
 			else {
-				echo "Imported page $title with id=$id\n";
+				return "Imported page $title with id=$id\n";
 			}
 
 		}
@@ -76,11 +74,14 @@ function handle_import() {
 
 			$ok = 0;
 			$ko = 0;
+			$message = "";
+			$dict = array();
 
 			foreach($page as $p) {
 
 				$id=-1;
 				if (isset($p["page"])) {
+					$old_id = $p["page"]["ID"];
 					$id = importSinglePage($p);
 				}
 
@@ -89,21 +90,76 @@ function handle_import() {
 				}
 				else {
 					$ok++;
+					$dict[ $old_id ] = $id;
 				}
 
 			}
 
-			echo "$ok pages imported and $ko errors\n";
+			// second pass to update page links
+			foreach($page as $p) {
 
+				$old_id = $p["page"]["ID"];
+
+				if (isset($dict[ $old_id ])) {
+
+					$new_id = $dict[ $old_id ];
+
+					$meta = get_post_meta($new_id, 'mpat_content', true);
+
+					$needs_update = 0;
+
+					foreach ($p["page_links"] as $l) {
+
+						if (isset($dict[ $l["id"] ])) {
+
+							$new_link_id = $dict[ $l["id"] ] ;
+							$new_value = "page://" . $new_link_id;
+
+							updateMetaFromPath($meta, $l["path"], $new_value);
+
+							$needs_update = 1;
+
+						}
+						else {
+							$message .= "Page $new_id points to page ".$l["id"]." which wasn't imported.<br />\n";
+						}
+					}
+
+					if ($needs_update) {
+
+						update_post_meta($new_id, 'mpat_content', $meta);
+
+					}
+
+
+				}
+
+			}
+
+			$message .= "Added $ok pages and $ko already existed.\n";
+
+			return $message ;
 		}
 
 
-		echo '<script type="text/javascript">window.top.location = window.top.location.href;</script>';
+		//echo '<script type="text/javascript">window.top.location = window.top.location.href;</script>';
 
 	}
 
 }
 
+function updateMetaFromPath(&$meta, $path, $new_value) {
+
+	$sub = &$meta["content"];
+
+	while (!empty($path)) {
+		$p = array_shift($path);
+		$sub = &$sub[$p];
+	}
+
+	$sub = $new_value;
+
+}
 
 function importSingleLayout(&$layout) {
 

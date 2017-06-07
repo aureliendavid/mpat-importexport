@@ -16,14 +16,17 @@ require "mpatie_import.php";
 
 class ImportExport {
 
+    public $message;
+
     function import_export_init() {
         add_menu_page('MPAT ImportExport', 'ImportExport', 'manage_options', 'MPAT_ImportExport', array(&$this, 'display'), 'dashicons-download');
     }
 
-    static function import_export_onload() {
+    function import_export_onload() {
 
         if ( isset($_GET['page']) && strtolower($_GET['page']) === "mpat_importexport" )
         {
+
             $action = isset($_GET['action']) ? $_GET['action'] : "";
 
             switch ($action) {
@@ -38,9 +41,8 @@ class ImportExport {
 
                 case 'import':
 
-                    handle_import();
+                    $this->message = handle_import();
 
-                    exit();
                     break;
                 default:
                     break;
@@ -61,113 +63,134 @@ class ImportExport {
 
         <script src="<?php echo plugin_dir_url(__FILE__); ?>mpat_import_export.js" > </script>
 
-        <div id="importzone" style="display: inline-block;">
+        <div id="toolbarzone">
 
-            <div style="display: inline-block;">
-                <form action="<?php echo str_replace("//","/", $_SERVER['REQUEST_URI']) . '&action=import'; ?>"
-                      id="page-form" method="post" enctype="multipart/form-data" target="import-target" >
+            <div id="importzone" class="iexport-toolbar">
 
-                    <input id="page-fileinput" type="file" name="page" style="display: none;"  />
-                    <button type="button" id="page-btn" style="display:inline;vertical-align:center;">Import new pages</button>
+                <div style="display: inline-block;">
+                    <form action="<?php echo str_replace("//","/", $_SERVER['REQUEST_URI']) . '&action=import'; ?>"
+                          id="page-form" method="post" enctype="multipart/form-data" target="_top" >
 
-                </form>
+                        <input id="page-fileinput" type="file" name="page" style="display: none;"  />
+                        <button type="button" id="page-btn" style="display:inline;vertical-align:center;" title="Import new pages"><span class='dashicons
+    dashicons-plus'></span></button>
+
+                    </form>
+                </div>
+                <div style="display: inline-block;">
+                    <form action="<?php echo str_replace("//","/", $_SERVER['REQUEST_URI']) . '&action=import'; ?>"
+                          id="layout-form" method="post" enctype="multipart/form-data" target="_top" >
+
+                        <input id="layout-fileinput" type="file" name="layout" style="display: none;"  />
+                        <button type="button" id="layout-btn" style="display:inline;vertical-align:center;" title="Import new layouts"><span class='dashicons dashicons-welcome-add-page'></span></button>
+
+                    </form>
+                </div>
             </div>
-            <div style="display: inline-block;">
-                <form action="<?php echo str_replace("//","/", $_SERVER['REQUEST_URI']) . '&action=import'; ?>"
-                      id="layout-form" method="post" enctype="multipart/form-data" target="import-target" >
 
-                    <input id="layout-fileinput" type="file" name="layout" style="display: none;"  />
-                    <button type="button" id="layout-btn" style="display:inline;vertical-align:center;">Import new layouts</button>
+            <span>&nbsp;&nbsp;</span>
 
-                </form>
+            <div id="exporttb" class="iexport-toolbar">
+                <button onClick="fake_submit(this.id);" id="btn-exportall" title="Export all pages"><span class='dashicons dashicons-media-archive'></span></button>
+                <button onClick="fake_submit(this.id);" disabled id="btn-addmedia" title="Export selected pages and media"><span class='dashicons dashicons-media-video'></span></button>
+                <button onClick="fake_submit(this.id);" disabled id="btn-exportpages" title="Export selected pages"><span class='dashicons dashicons-media-document'></span></button>
+                <button onClick="fake_submit(this.id);" disabled id="btn-exportlayouts" title="Export layouts of selected pages"><span class='dashicons dashicons-media-default'></span></button>
             </div>
-            <div style="display: inline-block;width:40%;">
-                <iframe id="import-target" name="import-target" scrolling="no" style="width:100%;height:25px;border:0;display:inline;"></iframe>
-            </div>
-        </div>
 
-        <form style="display: inline; margin: 0; padding: 0;" method="post" action="<?php echo str_replace("//","/", $_SERVER['REQUEST_URI']) . '&action=export'; ?>" id="exportform" >
-
-        <div style="display: inline-block;" id="export-toolbar">
-            <button type="submit" id="btn-exportall" name="exportall" value="1" title="Export all pages"><span class='dashicons dashicons-media-archive'></span></button>
-            <button type="submit" disabled id="btn-addmedia" name="addmedia" value="1" title="Export selected pages and media"><span class='dashicons dashicons-media-video'></span></button>
-            <button type="submit" disabled id="btn-exportpages" name="exportpages" value="1" title="Export selected pages"><span class='dashicons dashicons-media-document'></span></button>
-            <button type="submit" disabled id="btn-exportlayouts" name="exportlayouts" value="1" title="Export layouts of selected pages"><span class='dashicons dashicons-media-default'></span></button>
+            <?php
+            if ($this->message && !empty($this->message)) {
+                echo "<div id='msgzone' >\n";
+                echo $this->message ;
+                echo "\n</div>\n";
+            }
+            ?>
         </div>
 
         <div id="exportzone">
 
-            <table class="iexport-table">
-                <thead>
-                <tr>
-                    <td><input type="checkbox" onchange="checkAll(this);"></td>
-                    <td>Page</td>
-                    <td>Layout</td>
-                    <td>Map</td>
-                    <td>Export</td>
-                </tr>
-                </thead>
-                <tbody>
+            <form style="display: inline; margin: 0; padding: 0;" method="post" action="<?php echo str_replace("//","/", $_SERVER['REQUEST_URI']) . '&action=export'; ?>" id="exportform" >
+
+                <div id="exporttb" class="iexport-toolbar">
+                    <button type="submit" hidden="1"  id="frm-btn-exportall" name="exportall" value="1" ></span></button>
+                    <button type="submit" hidden="1"  id="frm-btn-addmedia" name="addmedia" value="1" ></button>
+                    <button type="submit" hidden="1"  id="frm-btn-exportpages" name="exportpages" value="1" ></button>
+                    <button type="submit" hidden="1"  id="frm-btn-exportlayouts" name="exportlayouts" value="1"></button>
+                </div>
+
+                <table class="iexport-table">
+                    <thead>
+                    <tr>
+                        <td><input type="checkbox" onchange="checkAll(this);"></td>
+                        <td>Page</td>
+                        <td>Id</td>
+                        <td>Layout</td>
+                        <td>Map</td>
+                        <td>Export</td>
+                    </tr>
+                    </thead>
+                    <tbody>
 <?php
-                $all = ImportExport::getAll();
+                        $all = ImportExport::getAll();
 
-                foreach ($all as $o)  {
-                    if (isset($o['page'])) {
+                        foreach ($all as $o)  {
+                            if (isset($o['page'])) {
 
-                        $id = $o['page']['ID'];
+                                $id = $o['page']['ID'];
 
-                        echo "<tr>";
+                                echo "<tr>";
 
-                        echo "<td><input type='checkbox' name='pageid[]' value='$id'></td>\n";
+                                echo "<td><input type='checkbox' name='pageid[]' value='$id'></td>\n";
 
-                        echo "<td>" . $o['page']['post_title'] . "</td>";
+                                echo "<td>" . $o['page']['post_title'] . "</td>";
+                                echo "<td>$id</td>";
 
-                        $lname = "";
-                        if (isset($o['page_layout'])) {
-                            $lid = $o['page_layout']['ID'];
-                            $lname = $o['page_layout']['post_title'];
+                                $lname = "";
+                                if (isset($o['page_layout'])) {
+                                    $lid = $o['page_layout']['ID'];
+                                    $lname = $o['page_layout']['post_title'];
 
-                            echo "<td>" . $lname . "</td>\n";
-                            echo "<td><canvas id='canvas-$id' width='128' height='72' /></td>\n";
+                                    echo "<td>" . $lname . "</td>\n";
+                                    echo "<td><canvas id='canvas-$id' width='128' height='72' /></td>\n";
 
-                            $zones = $o['page_layout']['meta']['mpat_content']['layout'];
-                            $content = $o['page']['meta']['mpat_content']['content'];
+                                    $zones = $o['page_layout']['meta']['mpat_content']['layout'];
+                                    $content = $o['page']['meta']['mpat_content']['content'];
 
-                            echo "<script>\n";
-                            echo "var ctx = window.getCtx('$id');\n";
-                            echo "ctx.fillStyle = '#CCCCCC';\n";
-                            echo "ctx.fillRect(0,0,128,72);\n";
+                                    echo "<script>\n";
+                                    echo "var ctx = window.getCtx('$id');\n";
+/*                                    echo "ctx.fillStyle = '#CCCCCC';\n";
+                                    echo "ctx.fillRect(0,0,128,72);\n";*/
 
-                            foreach ($zones as $z) {
+                                    foreach ($zones as $z) {
 
-                                $type = $content[ $z['i'] ]['_0']['type'];
-                                $text = strtoupper($type[0]);
+                                        $type = $content[ $z['i'] ]['_0']['type'];
+                                        $text = strtoupper($type[0]);
 
-                                echo "window.drawComponent(ctx, $z[x], $z[y], $z[w], $z[h], '$text');\n";
+                                        echo "window.drawComponent(ctx, $z[x], $z[y], $z[w], $z[h], '$text');\n";
 
+                                    }
+                                    echo "</script>\n";
+
+
+                                    echo "<td><div id='exportbtns'>";
+                                    echo "<a href='".str_replace("//","/", $_SERVER['REQUEST_URI'])."&action=export&pageid=$id&addmedia=1' title='Page + Media'><span class='dashicons dashicons-media-video'></span></a>&nbsp;";
+                                    echo "<a href='".str_replace("//","/", $_SERVER['REQUEST_URI'])."&action=export&pageid=$id' title='Page only' ><span class='dashicons dashicons-media-document'></span></a>&nbsp;";
+                                    echo "<a href='".str_replace("//","/", $_SERVER['REQUEST_URI'])."&action=export&layoutid=$lid' title='Layout only'><span class='dashicons dashicons-media-default'></span></a>";
+                                    echo "</div></td>";
+
+                                }
+
+                                echo "</tr>";
                             }
-                            echo "</script>\n";
-
-
-                            echo "<td><div id='exportbtns'>";
-                            echo "<a href='".str_replace("//","/", $_SERVER['REQUEST_URI'])."&action=export&pageid=$id&addmedia=1' title='Page + Media'><span class='dashicons dashicons-media-video'></span></a>&nbsp;";
-                            echo "<a href='".str_replace("//","/", $_SERVER['REQUEST_URI'])."&action=export&pageid=$id' title='Page only' ><span class='dashicons dashicons-media-document'></span></a>&nbsp;";
-                            echo "<a href='".str_replace("//","/", $_SERVER['REQUEST_URI'])."&action=export&layoutid=$lid' title='Layout only'><span class='dashicons dashicons-media-default'></span></a>";
-                            echo "</div></td>";
-
                         }
-
-                        echo "</tr>";
-                    }
-                }
 ?>
-                </tbody>
-            </table>
-            <br />
+                    </tbody>
+                </table>
+
+            </form>
 
         </div>
 
-        </form>
+
 
 <?php
     }
