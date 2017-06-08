@@ -157,8 +157,6 @@ class ImportExport {
 
                                     echo "<script>\n";
                                     echo "var ctx = window.getCtx('$id');\n";
-/*                                    echo "ctx.fillStyle = '#CCCCCC';\n";
-                                    echo "ctx.fillRect(0,0,128,72);\n";*/
 
                                     foreach ($zones as $z) {
 

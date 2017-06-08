@@ -68,9 +68,9 @@
 }
 
 #msgzone {
-    display: inline-block;
+    display: block;
     padding-left: 15px;
-    vertical-align: bottom;
+    padding-top: 10px;
     font-family: monospace;
     font-size:16px;
 
