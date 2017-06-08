@@ -72,7 +72,7 @@ class ImportExport {
                           id="page-form" method="post" enctype="multipart/form-data" target="_top" >
 
                         <input id="page-fileinput" type="file" name="page" style="display: none;"  />
-                        <button type="button" id="page-btn" style="display:inline;vertical-align:center;" title="Import new pages"><span class='dashicons
+                        <button type="button" id="page-btn" style="display:inline;vertical-align:center;" title="Import new pages">Import<span class='dashicons
     dashicons-plus'></span></button>
 
                     </form>
@@ -82,7 +82,7 @@ class ImportExport {
                           id="layout-form" method="post" enctype="multipart/form-data" target="_top" >
 
                         <input id="layout-fileinput" type="file" name="layout" style="display: none;"  />
-                        <button type="button" id="layout-btn" style="display:inline;vertical-align:center;" title="Import new layouts"><span class='dashicons dashicons-welcome-add-page'></span></button>
+                        <button type="button" id="layout-btn" style="display:inline;vertical-align:center;" title="Import new layouts">Import Layouts<span class='dashicons dashicons-welcome-add-page'></span></button>
 
                     </form>
                 </div>
@@ -91,10 +91,10 @@ class ImportExport {
             <span>&nbsp;&nbsp;</span>
 
             <div id="exporttb" class="iexport-toolbar">
-                <button onClick="fake_submit(this.id);" id="btn-exportall" title="Export all pages"><span class='dashicons dashicons-media-archive'></span></button>
-                <button onClick="fake_submit(this.id);" disabled id="btn-addmedia" title="Export selected pages and media"><span class='dashicons dashicons-media-video'></span></button>
-                <button onClick="fake_submit(this.id);" disabled id="btn-exportpages" title="Export selected pages"><span class='dashicons dashicons-media-document'></span></button>
-                <button onClick="fake_submit(this.id);" disabled id="btn-exportlayouts" title="Export layouts of selected pages"><span class='dashicons dashicons-media-default'></span></button>
+                <button onClick="fake_submit(this.id);" id="btn-exportall" title="Export all pages">Export ALL<span class='dashicons dashicons-media-archive'></span></button>
+                <button onClick="fake_submit(this.id);" disabled id="btn-addmedia" title="Export selected pages and media">Exp. Selected w. Media<span class='dashicons dashicons-media-video'></span></button>
+                <button onClick="fake_submit(this.id);" disabled id="btn-exportpages" title="Export selected pages">Exp. Selected<span class='dashicons dashicons-media-document'></span></button>
+                <button onClick="fake_submit(this.id);" disabled id="btn-exportlayouts" title="Export layouts of selected pages">Exp. Layouts<span class='dashicons dashicons-media-default'></span></button>
             </div>
 
             <?php
