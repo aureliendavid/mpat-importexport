@@ -1,8 +1,7 @@
 <?php
-use MPAT\ImportExport\ImportExport;
 namespace MPAT\ImportExport;
 
-
+use MPAT\ImportExport\ImportExport;
 
 function handle_import() {
 
@@ -298,12 +297,9 @@ function importSinglePage(&$page) {
 					$meta['content'][ $media['zone'] ][ $media['state'] ]['data'][ $media['key'] ] = $new_url;
 				}
 
-
 			}
 
-
-
-		}
+    }
 
 	}
 

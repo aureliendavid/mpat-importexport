@@ -198,7 +198,7 @@ class ImportExport {
 
         $layout = $layout->to_array();
 
-        if ($layout['post_status'] == 'publish') {
+        if ($layout['post_status'] == 'publish' || $layout['post_status'] == 'draft') {
             $meta = get_post_meta($layout['ID'], 'mpat_content', true);
             $layout['meta'] = array('mpat_content' => $meta);
             return array( "page_layout" => $layout );
@@ -213,9 +213,9 @@ class ImportExport {
         $main_pages = array();
 
         if ($ids)
-            $pages = get_pages( array('include' => $ids ) );
+            $pages = get_pages( array('include' => $ids, 'post_status' => array('publish', 'draft')) );
         else
-            $pages = get_pages();
+            $pages = get_pages( array('post_status' => array('publish', 'draft')) );
 
         foreach ($pages as $page) {
             $page = $page->to_array();
