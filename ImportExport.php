@@ -19,7 +19,7 @@ class ImportExport {
     public $message;
 
     function import_export_init() {
-        add_menu_page('MPAT ImportExport', 'ImportExport', 'manage_options', 'MPAT_ImportExport', array(&$this, 'display'), 'dashicons-download');
+        add_menu_page('MPAT ImportExport', 'ImportExport', 'edit_pages', 'MPAT_ImportExport', array(&$this, 'display'), 'dashicons-download');
     }
 
     function import_export_onload() {
