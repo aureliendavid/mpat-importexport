@@ -160,7 +160,7 @@ class ImportExport {
 
                                     foreach ($zones as $z) {
 
-                                        $type = $content[ $z['i'] ]['_0']['type'];
+                                        $type = reset($content[ $z['i'] ])['type'];
                                         $text = strtoupper($type[0]);
 
                                         echo "window.drawComponent(ctx, $z[x], $z[y], $z[w], $z[h], '$text');\n";
