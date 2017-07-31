@@ -148,7 +148,7 @@ function handle_export() {
 
 
 function addMediaByKey(&$media, &$state, $key, $zone, $stateName, $type = "image") {
-    if ($state['data'] && $state['data'][$key]) {
+    if (isset($state['data']) && isset($state['data'][$key])) {
         $data = base64_encode(file_get_contents($state['data'][$key]));
         $media[] = array(
             'zone'  => $zone,
