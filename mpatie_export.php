@@ -32,6 +32,12 @@ function dfs_links($content, &$links, $path) {
 
 function addPageLinks(&$page) {
 
+    if (    !isset($page['page'])
+        ||  !isset($page['page']['meta'])
+        ||  !isset($page['page']['meta']['mpat_content'])
+        ||  !isset($page['page']['meta']['mpat_content']['content'])
+        )
+        return;
 
     $content = $page['page']['meta']['mpat_content']['content'];
 
@@ -162,6 +168,14 @@ function addMediaByKey(&$media, &$state, $key, $zone, $stateName, $type = "image
 }
 
 function addMedia(&$o) {
+
+    if (    !isset($o['page'])
+        ||  !isset($o['page']['meta'])
+        ||  !isset($o['page']['meta']['mpat_content'])
+        ||  !isset($o['page']['meta']['mpat_content']['content'])
+        )
+        return;
+
     $content = $o['page']['meta']['mpat_content']['content'];
     $media = array();
 
