@@ -85,11 +85,14 @@ function handle_export() {
 
         $pages = ImportExport::getAll( $_POST['pageid'] );
 
+        $mediadata = array("mediadata" => array());
+
         if ( isset($_POST['addmedia']) && $_POST['addmedia'] == "1" ) {
             foreach ($pages as &$o) {
-                addMedia($o);
+                addMedia($o, $mediadata["mediadata"]);
             }
             unset($o);
+            $pages[] = $mediadata;
             foreach ($pages as &$p) {
                 addPageLinks($p);
             }
@@ -153,21 +156,23 @@ function handle_export() {
 }
 
 
-function addMediaByKey(&$media, &$state, $key, $zone, $stateName, $type = "image") {
+function addMediaByKey(&$media, &$mediadata, &$state, $key, $zone, $stateName, $type = "image") {
     if (isset($state['data']) && isset($state['data'][$key]) && !empty($state['data'][$key]) ) {
-        $data = base64_encode(file_get_contents($state['data'][$key]));
+        $path = $state['data'][$key];
+        if (!isset($mediadata[$path]) || empty($mediadata[$path]) )
+            $mediadata[$path] = base64_encode(file_get_contents($path));
+
         $media[] = array(
             'zone'  => $zone,
             'state' => $stateName,
             'key'   => $key,
             'type'  => $type,
-            'url'   => $state['data'][$key],
-            'data'  => $data
+            'url'   => $path
         );
     }
 }
 
-function addMedia(&$o) {
+function addMedia(&$o, &$mediadata) {
 
     if (    !isset($o['page'])
         ||  !isset($o['page']['meta'])
@@ -186,21 +191,21 @@ function addMedia(&$o) {
         foreach($value as $stateName => $state) {
             switch ($state['type']) {
                 case 'link':
-                    addMediaByKey($media, $state, 'thumbnail', $key, $stateName);
+                    addMediaByKey($media, $mediadata, $state, 'thumbnail', $key, $stateName);
                     break;
                 case 'image':
-                    addMediaByKey($media, $state, 'imgUrl', $key, $stateName);
+                    addMediaByKey($media, $mediadata, $state, 'imgUrl', $key, $stateName);
                     break;
                 case 'video':
                 case 'video360pre':
-                    addMediaByKey($media, $state, 'thumbnail', $key, $stateName);
-                    addMediaByKey($media, $state, 'url', $key, $stateName, "video");
+                    addMediaByKey($media, $mediadata, $state, 'thumbnail', $key, $stateName);
+                    addMediaByKey($media, $mediadata, $state, 'url', $key, $stateName, "video");
                     break;
                 case 'audio':
-                    addMediaByKey($media, $state, 'url', $key, $stateName, "audio");
+                    addMediaByKey($media, $mediadata, $state, 'url', $key, $stateName, "audio");
                     break;
                 case 'redbutton':
-                    addMediaByKey($media, $state, 'img', $key, $stateName);
+                    addMediaByKey($media, $mediadata, $state, 'img', $key, $stateName);
                     break;
                 case 'launcher':
                     //TODO
