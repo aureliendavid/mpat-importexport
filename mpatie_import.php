@@ -3,6 +3,8 @@ namespace MPAT\ImportExport;
 
 use MPAT\ImportExport\ImportExport;
 
+$nullGuard = null;
+
 function handle_import() {
 
 	if ( isset($_FILES['layout']) ) {
@@ -76,12 +78,14 @@ function handle_import() {
 			$message = "";
 			$dict = array();
 
+			$mediadata = findMediaData($page);
+
 			foreach($page as $p) {
 
 				$id=-1;
 				if (isset($p["page"])) {
 					$old_id = $p["page"]["ID"];
-					$id = importSinglePage($p);
+					$id = importSinglePage($p, $mediadata);
 				}
 
 				if ($id == -1) {
@@ -102,6 +106,33 @@ function handle_import() {
 				if (isset($dict[ $old_id ])) {
 
 					$new_id = $dict[ $old_id ];
+
+					///////// update parent ////////////
+
+					$old_parent = $p["page"]["post_parent"];
+
+					if ($old_parent) {
+
+						if ( isset($dict[$old_parent]) ) {
+
+							$new_parent = $dict[$old_parent];
+
+							$updated_page = array(
+							  'ID'          => $new_id,
+							  'post_parent'	=> $new_parent,
+							);
+
+							wp_update_post( $updated_page );
+
+						}
+						else {
+							$message .= "Page $new_id has parent $old_parent which wasn't imported.<br />\n";
+						}
+					}
+
+
+
+					///////// update page links ////////////
 
 					$meta = get_post_meta($new_id, 'mpat_content', true);
 
@@ -160,6 +191,23 @@ function updateMetaFromPath(&$meta, $path, $new_value) {
 
 }
 
+function &findMediaData(&$page) {
+
+	$last = array_pop($page);
+
+	if (isset($last['mediadata'])) {
+		return $last['mediadata'];
+	}
+	else {
+		array_push($page, $last);
+		// can't directly return null by reference
+		return $nullGuard;
+	}
+
+
+}
+
+
 function importSingleLayout(&$layout) {
 
 	$meta = $layout["page_layout"]["meta"]["mpat_content"];
@@ -183,7 +231,7 @@ function importSingleLayout(&$layout) {
 
 }
 
-function importSinglePage(&$page) {
+function importSinglePage(&$page, &$mediadata = null) {
 
 	$meta = $page["page"]["meta"]["mpat_content"];
 	$title = $page["page"]['post_title'];
@@ -241,7 +289,7 @@ function importSinglePage(&$page) {
 				$filename .= '.' . $fileinfo['extension'];
 
 				global $wpdb;
-				$query = "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attached_file' AND meta_value LIKE '%$filename'";
+				$query = "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attached_file' AND ( meta_value LIKE '%/$filename' OR meta_value = '$filename' )" ;
 				$results = $wpdb->get_results($query);
 
 
@@ -271,30 +319,46 @@ function importSinglePage(&$page) {
 					$fpath = sys_get_temp_dir().DIRECTORY_SEPARATOR.$filename;
 					$fh = fopen( $fpath, 'wb' );
 					chmod($fpath, 0666);
-					fwrite( $fh, base64_decode($media['data']) );
+					$stop = false;
+					if (isset($media['data']) && !empty($media['data'])) {
 
-					$file = array(
-						'name'     => basename($filename),
-						'tmp_name' => $fpath,
-					);
+						fwrite( $fh, base64_decode($media['data']) );
+					}
+					else if ($mediadata && isset($media['url']) && isset($mediadata[ $media['url'] ]) ) {
 
-					$id = @media_handle_sideload( $file, 0 );
-
-					fclose($fh);
-					if (file_exists($fpath))
-						@unlink($fpath);
-
-					$new_url = wp_get_attachment_url( $id );
-
-					if ($media['type'] == "image") {
-
-						if ($img = image_get_intermediate_size($id, 'large')) {
-							$new_url = $img['url'];
-						}
-
+						fwrite( $fh, base64_decode( $mediadata[ $media['url'] ] ) );
+					}
+					else {
+						$stop = true;
 					}
 
-					$meta['content'][ $media['zone'] ][ $media['state'] ]['data'][ $media['key'] ] = $new_url;
+
+					if (!$stop) {
+
+						$file = array(
+							'name'     => basename($filename),
+							'tmp_name' => $fpath,
+						);
+
+						$id = @media_handle_sideload( $file, 0 );
+
+						fclose($fh);
+						if (file_exists($fpath))
+							@unlink($fpath);
+
+						$new_url = wp_get_attachment_url( $id );
+
+						if ($media['type'] == "image") {
+
+							if ($img = image_get_intermediate_size($id, 'large')) {
+								$new_url = $img['url'];
+							}
+
+						}
+
+						$meta['content'][ $media['zone'] ][ $media['state'] ]['data'][ $media['key'] ] = $new_url;
+
+					}
 				}
 
 			}
