@@ -121,7 +121,7 @@ class ImportExport {
                     <thead>
                     <tr>
                         <td><input type="checkbox" onchange="checkAll(this);"></td>
-                        <td>Page</td>
+                        <td>Title</td>
                         <td>Id</td>
                         <td>Layout</td>
                         <td>Map</td>
@@ -131,11 +131,20 @@ class ImportExport {
                     <tbody>
 <?php
                         $all = ImportExport::getAll();
+                        $first_model = false;
+
+                        echo "<tr><td colspan='100'><b>Pages</b></td></tr>";
 
                         foreach ($all as $o)  {
                             if (isset($o['page'])) {
 
                                 $id = $o['page']['ID'];
+
+                                $first_model = ( !$first_model && $o['page']['post_type'] == 'page_model' );
+                                if ($first_model) {
+                                    echo "<tr><td colspan='100'><b>Page Models</b></td></tr>";
+                                }
+
 
                                 echo "<tr>";
 
@@ -193,6 +202,25 @@ class ImportExport {
 <?php
     }
 
+    static function getFullUrl($url) {
+
+        // absolute url with same protocol
+        if (substr($url, 0, 2) == "//") {
+            $url = $_SERVER['REQUEST_SCHEME'] . $url;
+        }
+        // absolute url with same protocol/domain/port
+        // maybe use SERVER_NAME / SERVER_PORT instead ? or WP_DOMAIN ?
+        else if ( $url[0] == '/' ) {
+            $url = $_SERVER['WP_HOME'] . $url;
+        }
+        // relative url from current site
+        else if (!strpos($url, "://")) {
+            $url = $_SERVER['WP_SITEURL'] . $url;
+        }
+
+        return $url;
+    }
+
 
     static function getLayoutFromObject($layout) {
 
@@ -208,14 +236,7 @@ class ImportExport {
 
     }
 
-
-    static function getAll($ids=null) {
-        $main_pages = array();
-
-        if ($ids)
-            $pages = get_pages( array('include' => $ids, 'post_status' => array('publish', 'draft')) );
-        else
-            $pages = get_pages( array('post_status' => array('publish', 'draft')) );
+    static function addPages(&$main_pages, &$pages) {
 
         foreach ($pages as $page) {
             $page = $page->to_array();
@@ -241,6 +262,25 @@ class ImportExport {
             array_push($main_pages, $o);
 
         }
+
+    }
+
+    static function getAll($ids=null) {
+        $main_pages = array();
+
+        if ($ids) {
+            $pages = get_pages( array('include' => $ids, 'post_status' => array('publish', 'draft')) );
+            $models = get_posts( array('post_type' => 'page_model', 'include' => $ids, 'post_status' => array('publish', 'draft')) );
+        }
+        else {
+            $pages = get_pages( array('post_status' => array('publish', 'draft')) );
+            $models = get_posts( array('post_type' => 'page_model', 'post_status' => array('publish', 'draft')) );
+        }
+
+
+        ImportExport::addPages($main_pages, $pages);
+        ImportExport::addPages($main_pages, $models);
+
 
         return $main_pages;
     }
