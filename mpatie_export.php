@@ -3,6 +3,13 @@ use MPAT\ImportExport\ImportExport;
 namespace MPAT\ImportExport;
 
 
+function urlIsLocal($url) {
+
+    $wp_upload_dir = wp_upload_dir();
+
+    return (substr($url, 0, strlen($wp_upload_dir['baseurl'])) === $wp_upload_dir['baseurl']);
+}
+
 function dfs_links($content, &$links, $path) {
 
     if (!is_array($content)) {
@@ -159,8 +166,16 @@ function handle_export() {
 function addMediaByKey(&$media, &$mediadata, &$state, $key, $zone, $stateName, $type = "image") {
     if (isset($state['data']) && isset($state['data'][$key]) && !empty($state['data'][$key]) ) {
         $path = $state['data'][$key];
-        if (!isset($mediadata[$path]) || empty($mediadata[$path]) )
-            $mediadata[$path] = base64_encode(file_get_contents($path));
+        if (!isset($mediadata[$path]) || empty($mediadata[$path])) {
+
+            $url = ImportExport::getFullUrl($path);
+
+            // only export media from the media library
+            if (urlIsLocal($url)) {
+                $mediadata[$path] = base64_encode(file_get_contents($url));
+            }
+
+        }
 
         $media[] = array(
             'zone'  => $zone,

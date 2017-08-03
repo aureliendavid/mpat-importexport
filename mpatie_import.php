@@ -369,7 +369,7 @@ function importSinglePage(&$page, &$mediadata = null) {
 
 
 	$new_page = array(
-		'post_type' => 'page',
+		'post_type' => $page["page"]['post_type'],
 		'post_status' => 'publish',
 		'post_slug' => 'page',
 		'post_title' => $title,
@@ -387,6 +387,8 @@ function isUrlReachable($url){
 	if(! $url || ! is_string($url)){
 		return false;
 	}
+
+	$url = ImportExport::getFullUrl($url);
 
 	$ch = @curl_init($url);
 	if($ch === false){
