@@ -58,28 +58,63 @@ function addPageLinks(&$page) {
 
 }
 
+function addOptions(&$pages) {
+
+    $opt = array();
+
+    if (isset($_POST['tl_options'])) {
+
+        $val = get_option('dsmcc');
+        if ($val)
+            $opt['dsmcc'] = $val;
+
+        $val = get_option('timeline_scenario');
+        if ($val)
+            $opt['timeline_scenario'] = $val;
+    }
+
+
+    if (isset($_POST['custom_css'])) {
+
+        $val = get_option('theme_mods_mpat-theme');
+        if ($val)
+            $opt['theme_mods_mpat-theme'] = $val;
+
+        $css = wp_get_custom_css();
+        if (!empty($css))
+            $opt['custom_css'] = $css;
+    }
+
+    if (count($opt)) {
+
+        $pages[] = array("options" => $opt);
+    }
+
+}
+
 function handle_export() {
 
 	header("Content-Type: application/json");
 
+    if ( isset($_POST['exportall']) || isset($_POST['exportpages']) ) {
 
-	if ( isset($_GET['layoutid']) ) {
+        $ids = isset($_POST['pageid']) ? $_POST['pageid'] : null;
 
-	    $layoutId = $_GET['layoutid'];
+        $pages = ImportExport::getAll($ids);
 
-        $layout = get_post( $layoutId );
-        if ($layout && $layout->post_type == "page_layout") {
-            if ($l = ImportExport::getLayoutFromObject($layout)) {
-                $filename = $layout->post_title;
-                header("Content-disposition: attachment; filename=$filename.mpat-layout");
-                echo json_encode($l);
+        addOptions($pages);
+
+        if (isset($_POST['chk_addmedia'])) {
+
+            $mediadata = array("mediadata" => array());
+            foreach ($pages as &$o) {
+                addMedia($o, $mediadata["mediadata"]);
             }
+            unset($o);
+            $pages[] = $mediadata;
+
         }
 
-    }
-    else if ( isset($_POST['exportall']) ) {
-
-        $pages = ImportExport::getAll();
         foreach ($pages as &$p) {
             addPageLinks($p);
         }
@@ -88,79 +123,28 @@ function handle_export() {
         echo json_encode($pages);
 
     }
-    else if ( isset($_POST['pageid']) ) {
+    else if ( isset($_POST['exportlayouts']) && $_POST['exportlayouts'] == "1" ) {
 
-        $pages = ImportExport::getAll( $_POST['pageid'] );
+        $layouts = array();
+        $done = array();
 
-        $mediadata = array("mediadata" => array());
+        $ids = isset($_POST['pageid']) ? $_POST['pageid'] : null;
+        $pages = ImportExport::getAll($ids);
 
-        if ( isset($_POST['addmedia']) && $_POST['addmedia'] == "1" ) {
-            foreach ($pages as &$o) {
-                addMedia($o, $mediadata["mediadata"]);
+        foreach ($pages as $o) {
+            if (isset($o["page_layout"]) && isset($o["page_layout"]["ID"]) && !in_array($o["page_layout"]["ID"], $done)) {
+                array_push($layouts, array( "page_layout" => $o["page_layout"]));
+                array_push($done, $o["page_layout"]["ID"]);
             }
-            unset($o);
-            $pages[] = $mediadata;
-            foreach ($pages as &$p) {
-                addPageLinks($p);
-            }
-            unset($p);
-            header("Content-disposition: attachment; filename=selected-pages.mpat-page");
-            echo json_encode($pages);
         }
 
-        else if ( isset($_POST['exportpages']) && $_POST['exportpages'] == "1" ) {
-
-            foreach ($pages as &$p) {
-                addPageLinks($p);
-            }
-            unset($p);
-            header("Content-disposition: attachment; filename=selected-pages.mpat-page");
-            echo json_encode($pages);
-
-        }
-        else if ( isset($_POST['exportlayouts']) && $_POST['exportlayouts'] == "1" ) {
-
-            $layouts = array();
-            $done = array();
-
-            foreach ($pages as $o) {
-                if (isset($o["page_layout"]) && isset($o["page_layout"]["ID"]) && !in_array($o["page_layout"]["ID"], $done)) {
-                    array_push($layouts, array( "page_layout" => $o["page_layout"]));
-                    array_push($done, $o["page_layout"]["ID"]);
-                }
-            }
-
-            header("Content-disposition: attachment; filename=selected-layouts.mpat-layout");
-            echo json_encode($layouts);
-        }
-
+        header("Content-disposition: attachment; filename=selected-layouts.mpat-layout");
+        echo json_encode($layouts);
     }
-	else if ( isset($_GET['pageid']) ) {
 
-	    $pageId = $_GET['pageid'];
-
-        $pages = ImportExport::getAll( array($pageId) );
-
-	    foreach ($pages as $o) {
-	        if (isset($o['page']) && isset($o['page']['ID']) &&  $o['page']['ID'] == $pageId) {
-
-	            if ( isset($_GET['addmedia']) && $_GET['addmedia'] == "1" ) {
-	                addMedia($o);
-	            }
-
-
-	            $filename = ( isset($o["page"]["post_title"]) ? $o["page"]["post_title"] : "$pageId" );
-
-	            header("Content-disposition: attachment; filename=$filename.mpat-page");
-	            echo json_encode($o);
-	            break;
-
-	        }
-	    }
-
-	}
 
 }
+
 function dumpMedia($path, &$mediadata) {
 
     if (!isset($mediadata[$path]) || empty($mediadata[$path])) {

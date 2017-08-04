@@ -92,7 +92,7 @@ class ImportExport {
 
             <div id="exporttb" class="iexport-toolbar">
                 <button onClick="fake_submit(this.id);" id="btn-exportall" title="Export all pages">Export ALL<span class='dashicons dashicons-media-archive'></span></button>
-                <button onClick="fake_submit(this.id);" disabled id="btn-addmedia" title="Export selected pages and media">Exp. Selected w. Media<span class='dashicons dashicons-media-video'></span></button>
+                <!-- <button onClick="fake_submit(this.id);" disabled id="btn-addmedia" title="Export selected pages and media">Exp. Selected w. Media<span class='dashicons dashicons-media-video'></span></button> -->
                 <button onClick="fake_submit(this.id);" disabled id="btn-exportpages" title="Export selected pages">Exp. Selected<span class='dashicons dashicons-media-document'></span></button>
                 <button onClick="fake_submit(this.id);" disabled id="btn-exportlayouts" title="Export layouts of selected pages">Exp. Layouts<span class='dashicons dashicons-media-default'></span></button>
             </div>
@@ -112,10 +112,21 @@ class ImportExport {
 
                 <div id="exporttb" class="iexport-toolbar">
                     <button type="submit" hidden="1"  id="frm-btn-exportall" name="exportall" value="1" ></span></button>
-                    <button type="submit" hidden="1"  id="frm-btn-addmedia" name="addmedia" value="1" ></button>
+                    <!-- <button type="submit" hidden="1"  id="frm-btn-addmedia" name="addmedia" value="1" ></button> -->
                     <button type="submit" hidden="1"  id="frm-btn-exportpages" name="exportpages" value="1" ></button>
                     <button type="submit" hidden="1"  id="frm-btn-exportlayouts" name="exportlayouts" value="1"></button>
                 </div>
+
+                <details open>
+                    <summary>Page export settings</summary>
+                    <br />
+                    <input type='checkbox' name='chk_addmedia' id='chk_addmedia' checked> <label for='chk_addmedia'>Include local media</label>
+                    <br />
+                    <input type='checkbox' name='tl_options' id='tl_options' > <label for='tl_options'>Include timeline options (dsmcc, timeline_scenario)</label>
+                    <br />
+                    <input type='checkbox' name='custom_css' id='custom_css' > <label for='custom_css'>Include custom styles</label>
+                </details>
+                <br />
 
                 <table class="iexport-table">
                     <thead>
@@ -125,7 +136,7 @@ class ImportExport {
                         <td>Id</td>
                         <td>Layout</td>
                         <td>Map</td>
-                        <td>Export</td>
+                        <!-- <td>Export</td> -->
                     </tr>
                     </thead>
                     <tbody>
@@ -140,9 +151,11 @@ class ImportExport {
 
                                 $id = $o['page']['ID'];
 
-                                $first_model = ( !$first_model && $o['page']['post_type'] == 'page_model' );
-                                if ($first_model) {
-                                    echo "<tr><td colspan='100'><b>Page Models</b></td></tr>";
+                                if (!$first_model) {
+                                    if ($o['page']['post_type'] == 'page_model') {
+                                        echo "<tr><td colspan='100'><b>Page Models</b></td></tr>";
+                                        $first_model = true;
+                                    }
                                 }
 
 
@@ -178,11 +191,11 @@ class ImportExport {
                                     echo "</script>\n";
 
 
-                                    echo "<td><div id='exportbtns'>";
+/*                                    echo "<td><div id='exportbtns'>";
                                     echo "<a href='".str_replace("//","/", $_SERVER['REQUEST_URI'])."&action=export&pageid=$id&addmedia=1' title='Page + Media'><span class='dashicons dashicons-media-video'></span></a>&nbsp;";
                                     echo "<a href='".str_replace("//","/", $_SERVER['REQUEST_URI'])."&action=export&pageid=$id' title='Page only' ><span class='dashicons dashicons-media-document'></span></a>&nbsp;";
                                     echo "<a href='".str_replace("//","/", $_SERVER['REQUEST_URI'])."&action=export&layoutid=$lid' title='Layout only'><span class='dashicons dashicons-media-default'></span></a>";
-                                    echo "</div></td>";
+                                    echo "</div></td>";*/
 
                                 }
 
