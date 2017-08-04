@@ -145,7 +145,7 @@ function handle_import() {
 							$new_link_id = $dict[ $l["id"] ] ;
 							$new_value = "page://" . $new_link_id;
 
-							updateMetaFromPath($meta, $l["path"], $new_value);
+							updateMetaFromPath($meta["content"], $l["path"], $new_value);
 
 							$needs_update = 1;
 
@@ -180,7 +180,7 @@ function handle_import() {
 
 function updateMetaFromPath(&$meta, $path, $new_value) {
 
-	$sub = &$meta["content"];
+	$sub = &$meta;
 
 	while (!empty($path)) {
 		$p = array_shift($path);
@@ -265,8 +265,6 @@ function importSinglePage(&$page, &$mediadata = null) {
 
 
 	// import media
-	// 1. test fopen is url is openable, if yes do nothing
-	// 2. if not
 	//     a. extract name from url (last path - ext - resolution-if-image)
 	//     b. check local media by that name
 	//         i. if exist, use this url instead
@@ -277,93 +275,103 @@ function importSinglePage(&$page, &$mediadata = null) {
 
 			$url = $media['url'];
 
-			if (!isUrlReachable($url)) {
 
-				$fileinfo = pathinfo( parse_url($url)['path'] );
-				$filename = $fileinfo['filename'];
+			$fileinfo = pathinfo( parse_url($url)['path'] );
+			$filename = $fileinfo['filename'];
+
+			if ($media['type'] == "image") {
+				$filename = preg_replace('/-\d+x\d+$/', '', $filename);
+			}
+
+			$filename .= '.' . $fileinfo['extension'];
+
+			global $wpdb;
+			$query = "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attached_file' AND ( meta_value LIKE '%/$filename' OR meta_value = '$filename' )" ;
+			$results = $wpdb->get_results($query);
+
+
+			if ( !empty($results) ) {
+
+				$attachment = get_post($results[0]->post_id);
+				$new_url = $attachment->guid;
 
 				if ($media['type'] == "image") {
-					$filename = preg_replace('/-\d+x\d+$/', '', $filename);
+
+					if ($img = image_get_intermediate_size($results[0]->post_id, 'large')) {
+						$new_url = $img['url'];
+					}
+
 				}
 
-				$filename .= '.' . $fileinfo['extension'];
+				if (isset($media['zone'])) {
 
-				global $wpdb;
-				$query = "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attached_file' AND ( meta_value LIKE '%/$filename' OR meta_value = '$filename' )" ;
-				$results = $wpdb->get_results($query);
+					$meta['content'][ $media['zone'] ][ $media['state'] ]['data'][ $media['key'] ] = $new_url;
+				}
+				else if (isset($media['path'])) {
+
+					updateMetaFromPath($meta, $media["path"], $new_url);
+				}
+			}
+			else {
+
+				if ( !function_exists('media_handle_sideload') ) {
+					require_once(ABSPATH . "wp-admin" . '/includes/image.php');
+					require_once(ABSPATH . "wp-admin" . '/includes/file.php');
+					require_once(ABSPATH . "wp-admin" . '/includes/media.php');
+				}
+
+				$fpath = sys_get_temp_dir().DIRECTORY_SEPARATOR.$filename;
+				$fh = fopen( $fpath, 'wb' );
+				chmod($fpath, 0666);
+				$stop = false;
+				if (isset($media['data']) && !empty($media['data'])) {
+
+					fwrite( $fh, base64_decode($media['data']) );
+				}
+				else if ($mediadata && isset($media['url']) && isset($mediadata[ $media['url'] ]) ) {
+
+					fwrite( $fh, base64_decode( $mediadata[ $media['url'] ] ) );
+				}
+				else {
+					$stop = true;
+				}
 
 
-				if ( !empty($results) ) {
+				if (!$stop) {
 
-					$attachment = get_post($results[0]->post_id);
-					$new_url = $attachment->guid;
+					$file = array(
+						'name'     => basename($filename),
+						'tmp_name' => $fpath,
+					);
+
+					$id = @media_handle_sideload( $file, 0 );
+
+					fclose($fh);
+					if (file_exists($fpath))
+						@unlink($fpath);
+
+					$new_url = wp_get_attachment_url( $id );
 
 					if ($media['type'] == "image") {
 
-						if ($img = image_get_intermediate_size($results[0]->post_id, 'large')) {
+						if ($img = image_get_intermediate_size($id, 'large')) {
 							$new_url = $img['url'];
 						}
 
 					}
 
-					$meta['content'][ $media['zone'] ][ $media['state'] ]['data'][ $media['key'] ] = $new_url;
-				}
-				else {
-
-					if ( !function_exists('media_handle_sideload') ) {
-						require_once(ABSPATH . "wp-admin" . '/includes/image.php');
-						require_once(ABSPATH . "wp-admin" . '/includes/file.php');
-						require_once(ABSPATH . "wp-admin" . '/includes/media.php');
-					}
-
-					$fpath = sys_get_temp_dir().DIRECTORY_SEPARATOR.$filename;
-					$fh = fopen( $fpath, 'wb' );
-					chmod($fpath, 0666);
-					$stop = false;
-					if (isset($media['data']) && !empty($media['data'])) {
-
-						fwrite( $fh, base64_decode($media['data']) );
-					}
-					else if ($mediadata && isset($media['url']) && isset($mediadata[ $media['url'] ]) ) {
-
-						fwrite( $fh, base64_decode( $mediadata[ $media['url'] ] ) );
-					}
-					else {
-						$stop = true;
-					}
-
-
-					if (!$stop) {
-
-						$file = array(
-							'name'     => basename($filename),
-							'tmp_name' => $fpath,
-						);
-
-						$id = @media_handle_sideload( $file, 0 );
-
-						fclose($fh);
-						if (file_exists($fpath))
-							@unlink($fpath);
-
-						$new_url = wp_get_attachment_url( $id );
-
-						if ($media['type'] == "image") {
-
-							if ($img = image_get_intermediate_size($id, 'large')) {
-								$new_url = $img['url'];
-							}
-
-						}
+					if (isset($media['zone'])) {
 
 						$meta['content'][ $media['zone'] ][ $media['state'] ]['data'][ $media['key'] ] = $new_url;
+					}
+					else if (isset($media['path'])) {
 
+						updateMetaFromPath($meta, $media["path"], $new_url);
 					}
 				}
-
 			}
 
-    }
+    	}
 
 	}
 

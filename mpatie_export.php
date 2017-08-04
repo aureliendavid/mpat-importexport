@@ -161,21 +161,27 @@ function handle_export() {
 	}
 
 }
+function dumpMedia($path, &$mediadata) {
 
+    if (!isset($mediadata[$path]) || empty($mediadata[$path])) {
+
+        $url = ImportExport::getFullUrl($path);
+
+        // only export media from the media library
+        if (urlIsLocal($url)) {
+            $mediadata[$path] = base64_encode(file_get_contents($url));
+        }
+
+    }
+
+}
 
 function addMediaByKey(&$media, &$mediadata, &$state, $key, $zone, $stateName, $type = "image") {
+
     if (isset($state['data']) && isset($state['data'][$key]) && !empty($state['data'][$key]) ) {
         $path = $state['data'][$key];
-        if (!isset($mediadata[$path]) || empty($mediadata[$path])) {
 
-            $url = ImportExport::getFullUrl($path);
-
-            // only export media from the media library
-            if (urlIsLocal($url)) {
-                $mediadata[$path] = base64_encode(file_get_contents($url));
-            }
-
-        }
+        dumpMedia($path, $mediadata);
 
         $media[] = array(
             'zone'  => $zone,
@@ -187,6 +193,43 @@ function addMediaByKey(&$media, &$mediadata, &$state, $key, $zone, $stateName, $
     }
 }
 
+function addMediaByPath(&$media, &$mediadata, $path, $url, $type = "image") {
+
+    // if is a url
+    if (!empty($url) && ($url[0] == '/' || strpos($url, "://"))) {
+
+        dumpMedia($url, $mediadata);
+
+        $media[] = array(
+            'path'  => $path,
+            'type'  => $type,
+            'url'   => $url
+        );
+
+
+    }
+
+}
+
+
+function addMediaByList(&$media, &$mediadata, &$list, $key, $path, $type = "image") {
+
+    for ($i = 0; $i < count($list); $i++) {
+
+        if (isset($list[$i][$key])) {
+
+            $full_path = $path;
+            $full_path[] = $i;
+            $full_path[] = $key;
+
+            addMediaByPath($media, $mediadata, $full_path, $list[$i][$key]);
+        }
+
+    }
+
+
+}
+
 function addMedia(&$o, &$mediadata) {
 
     if (    !isset($o['page'])
@@ -196,12 +239,23 @@ function addMedia(&$o, &$mediadata) {
         )
         return;
 
-    $content = $o['page']['meta']['mpat_content']['content'];
+    $mpat_content = $o['page']['meta']['mpat_content'] ;
+    $content = $mpat_content['content'];
     $media = array();
 
-    foreach($content as $key => $value ) {
+    if (    isset($mpat_content['styles'])
+        &&  isset($mpat_content['styles']['container'])
+        &&  isset($mpat_content['styles']['container']['backgroundImage'])
 
-        //TODO: export background if url
+        ) {
+
+        $bg = $mpat_content['styles']['container']['backgroundImage'];
+
+        addMediaByPath($media, $mediadata, array('styles', 'container', 'backgroundImage'), $bg);
+
+    }
+
+    foreach($content as $key => $value ) {
 
         foreach($value as $stateName => $state) {
             switch ($state['type']) {
@@ -223,10 +277,16 @@ function addMedia(&$o, &$mediadata) {
                     addMediaByKey($media, $mediadata, $state, 'img', $key, $stateName);
                     break;
                 case 'launcher':
-                    //TODO
+                    if (isset($state['data']) && isset($state['data']['listArray'])) {
+
+                        addMediaByList($media, $mediadata, $state['data']['listArray'], 'thumbnail', array('content', $key, $stateName, 'data', 'listArray') );
+                    }
                     break;
                 case 'gallery':
-                    //TODO
+                    if (isset($state['data']) && isset($state['data']['images'])) {
+
+                        addMediaByList($media, $mediadata, $state['data']['images'], 'attachmentUrl', array('content', $key, $stateName, 'data', 'images') );
+                    }
                     break;
             }
         }
