@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function(){
       }
 
       document.getElementById("btn-exportpages").disabled = shouldDisable;
-      document.getElementById("btn-addmedia").disabled = shouldDisable;
+      //document.getElementById("btn-addmedia").disabled = shouldDisable;
       document.getElementById("btn-exportlayouts").disabled = shouldDisable;
 
     };

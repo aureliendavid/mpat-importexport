@@ -82,6 +82,11 @@ function handle_import() {
 
 			foreach($page as $p) {
 
+				if (!isset($p['page']) && isset($p['options'])) {
+					handle_options($p['options']);
+					continue;
+				}
+
 				$id=-1;
 				if (isset($p["page"])) {
 					$old_id = $p["page"]["ID"];
@@ -100,6 +105,10 @@ function handle_import() {
 
 			// second pass to update page links
 			foreach($page as $p) {
+
+				if (!isset($p['page']) && isset($p['options'])) {
+					continue;
+				}
 
 				$old_id = $p["page"]["ID"];
 
@@ -236,7 +245,7 @@ function importSinglePage(&$page, &$mediadata = null) {
 	$meta = $page["page"]["meta"]["mpat_content"];
 	$title = $page["page"]['post_title'];
 
-	if (($old = get_page_by_title($title, ARRAY_A, "page")) && $old["post_status"] == "publish")
+	if (($old = get_page_by_title($title, ARRAY_A, $page["page"]['post_type'])) && $old["post_status"] == "publish")
 	{
 		return -1;
 	}
@@ -390,7 +399,6 @@ function importSinglePage(&$page, &$mediadata = null) {
 
 }
 
-
 function isUrlReachable($url){
 
 	if(! $url || ! is_string($url)){
@@ -422,6 +430,34 @@ function isUrlReachable($url){
 	@curl_close($ch);
 
 	return ($code >= 200 && $code < 300);
+}
+
+
+function handle_options($opt) {
+
+	if (isset($opt['dsmcc']))
+		update_option('dsmcc', $opt['dsmcc'] );
+
+	if (isset($opt['timeline_scenario']))
+		update_option('timeline_scenario', $opt['timeline_scenario'] );
+
+	$css_post_id = -1;
+
+	if (isset($opt['custom_css'])) {
+		$css_post = wp_update_custom_css_post( $opt['custom_css'] );
+		if (isset($css_post->ID)) {
+			$css_post_id = $css_post->ID;
+		}
+
+	}
+
+	if (isset($opt['theme_mods_mpat-theme'])) {
+
+		$opt['theme_mods_mpat-theme']['custom_css_post_id'] = $css_post_id ;
+		update_option('theme_mods_mpat-theme', $opt['theme_mods_mpat-theme'] );
+
+	}
+
 }
 
 
