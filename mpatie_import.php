@@ -375,9 +375,10 @@ function importSinglePage(&$page, &$mediadata = null) {
 
 	}
 
-
+  $pt = 'page';
+	if (array_key_exists('post_type', $page["page"])) $pt = $page["page"]['post_type'];
 	$new_page = array(
-		'post_type' => $page["page"]['post_type'],
+		'post_type' => $pt,
 		'post_status' => 'publish',
 		'post_slug' => 'page',
 		'post_title' => $title,

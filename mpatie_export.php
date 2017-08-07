@@ -1,7 +1,7 @@
 <?php
-use MPAT\ImportExport\ImportExport;
 namespace MPAT\ImportExport;
 
+use MPAT\ImportExport\ImportExport;
 
 function urlIsLocal($url) {
 
@@ -139,13 +139,14 @@ function handle_export() {
 
 	    $pageId = $_GET['pageid'];
 
-        $pages = ImportExport::getAll( array($pageId) );
+      $pages = ImportExport::getAll( array($pageId) );
+      $mediadata = array("mediadata" => array());
 
 	    foreach ($pages as $o) {
 	        if (isset($o['page']) && isset($o['page']['ID']) &&  $o['page']['ID'] == $pageId) {
 
 	            if ( isset($_GET['addmedia']) && $_GET['addmedia'] == "1" ) {
-	                addMedia($o);
+	                addMedia($o, $mediadata["mediadata"]);
 	            }
 
 
