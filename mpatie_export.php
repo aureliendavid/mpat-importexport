@@ -140,26 +140,6 @@ function handle_export() {
   }
 
 
-  $pages = ImportExport::getAll(array($pageId));
-  $mediadata = array("mediadata" => array());
-
-  foreach ($pages as $o) {
-    if (isset($o['page']) && isset($o['page']['ID']) && $o['page']['ID'] == $pageId) {
-
-      if (isset($_GET['addmedia']) && $_GET['addmedia'] == "1") {
-        addMedia($o, $mediadata["mediadata"]);
-      }
-
-
-      $filename = (isset($o["page"]["post_title"]) ? $o["page"]["post_title"] : "$pageId");
-
-      header("Content-disposition: attachment; filename=$filename.mpat-page");
-      echo json_encode($o);
-      break;
-
-    }
-  }
-
 }
 
 function dumpMedia($path, &$mediadata) {
