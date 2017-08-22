@@ -8,6 +8,30 @@ $nullGuard = null;
 function handle_import() {
 
 	if ( isset($_FILES['layout']) ) {
+
+		$message = "Upload error";
+        switch( $_FILES['layout']['error'] ) {
+            case UPLOAD_ERR_OK:
+                $message = false;;
+                break;
+            case UPLOAD_ERR_INI_SIZE:
+            case UPLOAD_ERR_FORM_SIZE:
+                $message .= ' - file too large (limit is '.ini_get('upload_max_filesize').' bytes).';
+                break;
+            case UPLOAD_ERR_PARTIAL:
+                $message .= ' - file upload was not completed.';
+                break;
+            case UPLOAD_ERR_NO_FILE:
+                $message .= ' - zero-length file uploaded.';
+                break;
+            default:
+                $message .= ' - internal error #'.$_FILES['layout']['error'];
+                break;
+        }
+        if ($message) {
+			return $message;
+        }
+
 		$json = file_get_contents( $_FILES['layout']['tmp_name'] );
 		$layout = json_decode($json, true);
 
@@ -54,6 +78,29 @@ function handle_import() {
 
 	}
 	else if ( isset($_FILES['page']) ) {
+
+		$message = "Upload error";
+        switch( $_FILES['page']['error'] ) {
+            case UPLOAD_ERR_OK:
+                $message = false;;
+                break;
+            case UPLOAD_ERR_INI_SIZE:
+            case UPLOAD_ERR_FORM_SIZE:
+                $message .= ' - file too large (limit is '.ini_get('upload_max_filesize').' bytes).';
+                break;
+            case UPLOAD_ERR_PARTIAL:
+                $message .= ' - file upload was not completed.';
+                break;
+            case UPLOAD_ERR_NO_FILE:
+                $message .= ' - zero-length file uploaded.';
+                break;
+            default:
+                $message .= ' - internal error #'.$_FILES['page']['error'];
+                break;
+        }
+        if ($message) {
+			return $message;
+        }
 
 		$json = file_get_contents( $_FILES['page']['tmp_name'] );
 		$page = json_decode($json, true);
