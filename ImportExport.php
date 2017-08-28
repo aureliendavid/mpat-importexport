@@ -7,6 +7,8 @@
  * Author: Aurelien David
  * Author URI: https://github.com/aureliendavid/
  * License: GPL2
+ * Text Domain: mpat-importexport
+ * Domain Path: /languages
  */
 
 namespace MPAT\ImportExport;
@@ -19,7 +21,8 @@ class ImportExport {
     public $message;
 
     function import_export_init() {
-        add_menu_page('MPAT ImportExport', 'ImportExport', 'edit_pages', 'MPAT_ImportExport', array(&$this, 'display'), 'dashicons-download');
+        load_plugin_textdomain('mpat-importexport', false, basename( dirname( __FILE__ ) ) . '/languages' );
+        add_menu_page('MPAT ImportExport', __('ImportExport', 'mpat-importexport'), 'edit_pages', 'MPAT_ImportExport', array(&$this, 'display'), 'dashicons-download');
     }
 
     function import_export_onload() {
@@ -59,7 +62,7 @@ class ImportExport {
 
 ?>
 
-        <h2>MPAT Importer/Exporter for <?php echo bloginfo('name'); ?></h2>
+        <h2><?php _e('MPAT Importer/Exporter for','mpat-importexport'); ?> <?php echo bloginfo('name'); ?></h2>
 
         <script src="<?php echo plugin_dir_url(__FILE__); ?>mpat_import_export.js" > </script>
 
@@ -72,8 +75,11 @@ class ImportExport {
                           id="page-form" method="post" enctype="multipart/form-data" target="_top" >
 
                         <input id="page-fileinput" type="file" name="page" style="display: none;"  />
-                        <button type="button" id="page-btn" style="display:inline;vertical-align:center;" title="Import new pages">Import<span class='dashicons
-    dashicons-plus'></span></button>
+                        <button type="button" id="page-btn"
+                            style="display:inline;vertical-align:center;"
+                            title="<?php _e('Import new pages', 'mpat-importexport'); ?>">
+                            <?php _e('Import', 'mpat-importexport'); ?><span class='dashicons dashicons-plus'></span>
+                        </button>
 
                     </form>
                 </div>
@@ -82,7 +88,11 @@ class ImportExport {
                           id="layout-form" method="post" enctype="multipart/form-data" target="_top" >
 
                         <input id="layout-fileinput" type="file" name="layout" style="display: none;"  />
-                        <button type="button" id="layout-btn" style="display:inline;vertical-align:center;" title="Import new layouts">Import Layouts<span class='dashicons dashicons-welcome-add-page'></span></button>
+                        <button type="button" id="layout-btn" style="display:inline;vertical-align:center;"
+                            title="<?php _e('Import new layouts', 'mpat-importexport'); ?>">
+                            <?php _e('Import Layouts', 'mpat-importexport'); ?>
+                            <span class='dashicons dashicons-welcome-add-page'></span>
+                        </button>
 
                     </form>
                 </div>
@@ -91,10 +101,29 @@ class ImportExport {
             <span>&nbsp;&nbsp;</span>
 
             <div id="exporttb" class="iexport-toolbar">
-                <button onClick="fake_submit(this.id);" id="btn-exportall" title="Export all pages">Export ALL<span class='dashicons dashicons-media-archive'></span></button>
-                <!-- <button onClick="fake_submit(this.id);" disabled id="btn-addmedia" title="Export selected pages and media">Exp. Selected w. Media<span class='dashicons dashicons-media-video'></span></button> -->
-                <button onClick="fake_submit(this.id);" disabled id="btn-exportpages" title="Export selected pages">Exp. Selected<span class='dashicons dashicons-media-document'></span></button>
-                <button onClick="fake_submit(this.id);" disabled id="btn-exportlayouts" title="Export layouts of selected pages">Exp. Layouts<span class='dashicons dashicons-media-default'></span></button>
+                <button onClick="fake_submit(this.id);" id="btn-exportall"
+                    title="<?php _e('Export all pages', 'mpat-importexport'); ?>">
+                    <?php _e('Export ALL', 'mpat-importexport'); ?>
+                    <span class='dashicons dashicons-media-archive'></span>
+                </button>
+
+                <!-- <button onClick="fake_submit(this.id);" disabled id="btn-addmedia"
+                    title="<?php _e('Export selected pages and media', 'mpat-importexport'); ?>">
+                    <?php _e('Exp. Selected w. Media', 'mpat-importexport'); ?>
+                    <span class='dashicons dashicons-media-video'></span>
+                </button> -->
+
+                <button onClick="fake_submit(this.id);" disabled id="btn-exportpages"
+                    title="<?php _e('Export selected pages', 'mpat-importexport'); ?>">
+                    <?php _e('Exp. Selected', 'mpat-importexport'); ?>
+                    <span class='dashicons dashicons-media-document'></span>
+                </button>
+
+                <button onClick="fake_submit(this.id);" disabled id="btn-exportlayouts"
+                    title="<?php _e('Export layouts of selected pages', 'mpat-importexport'); ?>">
+                    <?php _e('Exp. Layouts', 'mpat-importexport'); ?>
+                    <span class='dashicons dashicons-media-default'></span>
+                </button>
             </div>
 
             <?php
@@ -118,13 +147,16 @@ class ImportExport {
                 </div>
 
                 <details open>
-                    <summary>Page export settings</summary>
+                    <summary><?php _e('Page export settings', 'mpat-importexport'); ?></summary>
                     <br />
-                    <input type='checkbox' name='chk_addmedia' id='chk_addmedia' checked> <label for='chk_addmedia'>Include local media</label>
+                    <input type='checkbox' name='chk_addmedia' id='chk_addmedia' checked>
+                    <label for='chk_addmedia'><?php _e('Include local media', 'mpat-importexport'); ?></label>
                     <br />
-                    <input type='checkbox' name='tl_options' id='tl_options' > <label for='tl_options'>Include timeline options (dsmcc, timeline_scenario)</label>
+                    <input type='checkbox' name='tl_options' id='tl_options'>
+                    <label for='tl_options'><?php _e('Include timeline options (dsmcc, timeline_scenario)', 'mpat-importexport'); ?></label>
                     <br />
-                    <input type='checkbox' name='custom_css' id='custom_css' > <label for='custom_css'>Include custom styles</label>
+                    <input type='checkbox' name='custom_css' id='custom_css'>
+                    <label for='custom_css'><?php _e('Include custom styles', 'mpat-importexport'); ?></label>
                 </details>
                 <br />
 
@@ -132,11 +164,11 @@ class ImportExport {
                     <thead>
                     <tr>
                         <td><input type="checkbox" onchange="checkAll(this);"></td>
-                        <td>Title</td>
-                        <td>Id</td>
-                        <td>Layout</td>
-                        <td>Map</td>
-                        <!-- <td>Export</td> -->
+                        <td><?php _e('Title', 'mpat-importexport'); ?></td>
+                        <td><?php _e('Id', 'mpat-importexport'); ?></td>
+                        <td><?php _e('Layout', 'mpat-importexport'); ?></td>
+                        <td><?php _e('Map', 'mpat-importexport'); ?></td>
+                        <!-- <td><?php _e('Export', 'mpat-importexport'); ?></td> -->
                     </tr>
                     </thead>
                     <tbody>
@@ -144,7 +176,7 @@ class ImportExport {
                         $all = ImportExport::getAll();
                         $first_model = false;
 
-                        echo "<tr><td colspan='100'><b>Pages</b></td></tr>";
+                        echo "<tr><td colspan='100'><b><?php e('Pages', 'mpat-importexport'); ?></b></td></tr>";
 
                         foreach ($all as $o)  {
                             if (isset($o['page'])) {
@@ -153,7 +185,7 @@ class ImportExport {
 
                                 if (!$first_model) {
                                     if ($o['page']['post_type'] == 'page_model') {
-                                        echo "<tr><td colspan='100'><b>Page Models</b></td></tr>";
+                                        echo "<tr><td colspan='100'><b><?php _e('Page Models', 'mpat-importexport'); ?></b></td></tr>";
                                         $first_model = true;
                                     }
                                 }
@@ -192,9 +224,9 @@ class ImportExport {
 
 
 /*                                    echo "<td><div id='exportbtns'>";
-                                    echo "<a href='".str_replace("//","/", $_SERVER['REQUEST_URI'])."&action=export&pageid=$id&addmedia=1' title='Page + Media'><span class='dashicons dashicons-media-video'></span></a>&nbsp;";
-                                    echo "<a href='".str_replace("//","/", $_SERVER['REQUEST_URI'])."&action=export&pageid=$id' title='Page only' ><span class='dashicons dashicons-media-document'></span></a>&nbsp;";
-                                    echo "<a href='".str_replace("//","/", $_SERVER['REQUEST_URI'])."&action=export&layoutid=$lid' title='Layout only'><span class='dashicons dashicons-media-default'></span></a>";
+                                    echo "<a href='".str_replace("//","/", $_SERVER['REQUEST_URI'])."&action=export&pageid=$id&addmedia=1' title='".__("Page + Media", "mpat-importexport") ."'><span class='dashicons dashicons-media-video'></span></a>&nbsp;";
+                                    echo "<a href='".str_replace("//","/", $_SERVER['REQUEST_URI'])."&action=export&pageid=$id' title='".__("Page only","mpat-importexport")."'><span class='dashicons dashicons-media-document'></span></a>&nbsp;";
+                                    echo "<a href='".str_replace("//","/", $_SERVER['REQUEST_URI'])."&action=export&layoutid=$lid' title='".__("Layout only","mpat-importexport").'><span class='dashicons dashicons-media-default'></span></a>";
                                     echo "</div></td>";*/
 
                                 }
