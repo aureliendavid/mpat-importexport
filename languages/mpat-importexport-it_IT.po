@@ -1,0 +1,129 @@
+# Copyright (C) 2017 MPAT ImportExport
+# This file is distributed under the same license as the MPAT ImportExport package.
+msgid ""
+msgstr ""
+"Project-Id-Version: MPAT ImportExport 1.0.beta\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mpat-"
+"importexport\n"
+"POT-Creation-Date: 2017-08-28 18:47:35+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2017-08-29 14:14+0200\n"
+"Language-Team: \n"
+"X-Generator: Poedit 2.0.3\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: it_IT\n"
+
+#: ImportExport.php:25
+msgid "ImportExport"
+msgstr "ImportExport"
+
+#: ImportExport.php:65
+msgid "MPAT Importer/Exporter for"
+msgstr "Importatore / esportatore MPAT per"
+
+#: ImportExport.php:80
+msgid "Import new pages"
+msgstr "Importa nuove pagine"
+
+#: ImportExport.php:81
+msgid "Import"
+msgstr "Importare"
+
+#: ImportExport.php:92
+msgid "Import new layouts"
+msgstr "Importa nuovi layout"
+
+#: ImportExport.php:93
+msgid "Import Layouts"
+msgstr "Importa i layout"
+
+#: ImportExport.php:105
+msgid "Export all pages"
+msgstr "Esporta tutte le pagine"
+
+#: ImportExport.php:106
+msgid "Export ALL"
+msgstr "Esporta TUTTO"
+
+#: ImportExport.php:111
+msgid "Export selected pages and media"
+msgstr "Esportare le pagine e i media selezionati"
+
+#: ImportExport.php:112
+msgid "Exp. Selected w. Media"
+msgstr "Exp. Selezionati e Media"
+
+#: ImportExport.php:117
+msgid "Export selected pages"
+msgstr "Esporta pagine selezionate"
+
+#: ImportExport.php:118
+msgid "Exp. Selected"
+msgstr "Exp. Selezionato"
+
+#: ImportExport.php:123
+msgid "Export layouts of selected pages"
+msgstr "Esportazioni di pagine selezionate"
+
+#: ImportExport.php:124
+msgid "Exp. Layouts"
+msgstr "Exp. disposizione"
+
+#: ImportExport.php:150
+msgid "Page export settings"
+msgstr "Impostazioni delle esportazioni di pagina"
+
+#: ImportExport.php:153
+msgid "Include local media"
+msgstr "Includi i media locali"
+
+#: ImportExport.php:156
+msgid "Include timeline options (dsmcc, timeline_scenario)"
+msgstr "Includi le opzioni di timeline (dsmcc, timeline_scenario)"
+
+#: ImportExport.php:159
+msgid "Include custom styles"
+msgstr "Includi stili personalizzati"
+
+#: ImportExport.php:167
+msgid "Title"
+msgstr "Titolo"
+
+#: ImportExport.php:168
+msgid "Id"
+msgstr "identità"
+
+#: ImportExport.php:169
+msgid "Layout"
+msgstr "disposizione"
+
+#: ImportExport.php:170
+msgid "Map"
+msgstr "anteprima"
+
+#: ImportExport.php:171
+msgid "Export"
+msgstr "Esportare"
+
+#. Plugin Name of the plugin/theme
+msgid "MPAT ImportExport"
+msgstr "MPAT ImportExport"
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/aureliendavid/mpat-importexport/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Import and export MPAT pages and layout"
+msgstr "Importa ed esporta pagine e layout MPAT"
+
+#. Author of the plugin/theme
+msgid "Aurelien David"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://github.com/aureliendavid/"
+msgstr ""
