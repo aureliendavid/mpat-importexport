@@ -194,22 +194,38 @@ function handle_import() {
 
 					$needs_update = 0;
 
-					foreach ($p["page_links"] as $l) {
+                    foreach ($p["page_links"] as $l) {
 
-						if (isset($dict[ $l["id"] ])) {
+                        if (isset($dict[ $l["id"] ])) {
 
-							$new_link_id = $dict[ $l["id"] ] ;
-							$new_value = "page://" . $new_link_id;
+                            $new_link_id = $dict[ $l["id"] ] ;
+                            $new_value = "page://" . $new_link_id;
 
-							updateMetaFromPath($meta["content"], $l["path"], $new_value);
+                            updateMetaFromPath($meta["content"], $l["path"], $new_value);
 
-							$needs_update = 1;
+                            $needs_update = 1;
 
-						}
-						else {
-							$message .= "Page $new_id points to page ".$l["id"]." which wasn't imported.<br />\n";
-						}
-					}
+                        }
+                        else {
+                            $message .= "Page $new_id points to page ".$l["id"]." which wasn't imported.<br />\n";
+                        }
+                    }
+
+                    foreach ($p["clones"] as $l) {
+
+                        if (isset($dict[ $l["id"] ])) {
+
+                            $new_link_id = $dict[ $l["id"] ] ;
+
+                            $meta["content"][$l['box']][$l['state']]['data']['pageId'] = $new_link_id;
+
+                            $needs_update = 1;
+
+                        }
+                        else {
+                            $message .= "Page $new_id points to page ".$l["id"]." which wasn't imported.<br />\n";
+                        }
+                    }
 
 					if ($needs_update) {
 
