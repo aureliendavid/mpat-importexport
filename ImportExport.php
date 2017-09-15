@@ -30,8 +30,7 @@ class ImportExport {
     }
 
     function import_export_onload() {
-        $zipped = get_option('mpatImportExport');
-        
+        $zipped = get_option('mpatImportExport') == 'on';
         if ( isset($_GET['page']) && strtolower($_GET['page']) === "mpat_importexport" )
         {
 
@@ -89,11 +88,11 @@ class ImportExport {
                 <td colspan="2">
                     <?php submit_button(); ?>
                 </td>
-            </tr>
-            </form>        
+            </tr>     
             
         </table>
         
+        </form>   
         <div id="toolbarzone">
         
             <div id="importzone" class="iexport-toolbar">

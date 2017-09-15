@@ -90,12 +90,12 @@ function addOptions(&$pages) {
 
 }
 
-function handle_export($zipped=false) {
+function handle_export($zipped) {
 
   if($zipped){
     header("Content-Type: application/x-gzip");
-    }
-    else{
+  }
+  else{
     header("Content-Type: application/json");
   }   
   
@@ -124,13 +124,13 @@ function handle_export($zipped=false) {
     unset($p);
 
     
-  if($zipped){
-    header("Content-disposition: attachment; filename=all-pages.mpat-page.gz");
-    echo gzcompress(json_encode($pages), 9);
-  }else{
-    header("Content-disposition: attachment; filename=all-pages.mpat-page");
-    echo json_encode($pages);
-  }
+    if($zipped){
+        header("Content-disposition: attachment; filename=all-pages.mpat-page.gz");
+        echo gzcompress(json_encode($pages), 9);
+    }else{
+        header("Content-disposition: attachment; filename=all-pages.mpat-page");
+        echo json_encode($pages);
+    }
 
   } else if (isset($_POST['exportlayouts']) && $_POST['exportlayouts'] == "1") {
 
