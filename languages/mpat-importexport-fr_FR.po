@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: MPAT ImportExport 1.0.beta\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mpat-"
 "importexport\n"
-"POT-Creation-Date: 2017-09-15 11:41+0200\n"
-"PO-Revision-Date: 2017-09-15 11:41+0200\n"
+"POT-Creation-Date: 2017-09-15 14:10+0200\n"
+"PO-Revision-Date: 2017-09-15 14:10+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -20,96 +20,99 @@ msgstr ""
 msgid "ImportExport"
 msgstr "Import/Export"
 
-#: ImportExport.php:75
+#: ImportExport.php:74
 msgid "MPAT Importer/Exporter for"
 msgstr "Importeur/Exporteur MPAT pour"
 
-#: ImportExport.php:85
-msgid "Use compression while import and export"
-msgstr ""
-"Utilisez la compression pendant l'importation et l'exportation"
+#: ImportExport.php:80
+msgid "Options"
+msgstr "Options"
 
-#: ImportExport.php:108
+#: ImportExport.php:88
+msgid "Use compression while import and export"
+msgstr "Utilisez la compression pendant l'importation et l'exportation"
+
+#: ImportExport.php:115
 msgid "Import new pages"
 msgstr "Importer de nouvelles pages"
 
-#: ImportExport.php:109
+#: ImportExport.php:116
 msgid "Import"
 msgstr "Importer"
 
-#: ImportExport.php:120
+#: ImportExport.php:127
 msgid "Import new layouts"
 msgstr "Importer de nouvelles mises en page"
 
-#: ImportExport.php:121
+#: ImportExport.php:128
 msgid "Import Layouts"
 msgstr "Importer les mises en page"
 
-#: ImportExport.php:133
+#: ImportExport.php:140
 msgid "Export all pages"
 msgstr "Exporter toutes les pages"
 
-#: ImportExport.php:134
+#: ImportExport.php:141
 msgid "Export ALL"
 msgstr "Exporter TOUT"
 
-#: ImportExport.php:139
+#: ImportExport.php:146
 msgid "Export selected pages and media"
 msgstr "Exporter les pages et les supports sélectionnés"
 
-#: ImportExport.php:140
+#: ImportExport.php:147
 msgid "Exp. Selected w. Media"
 msgstr "Exporter sélection avec médias"
 
-#: ImportExport.php:145
+#: ImportExport.php:152
 msgid "Export selected pages"
 msgstr "Exporter les pages sélectionnées"
 
-#: ImportExport.php:146
+#: ImportExport.php:153
 msgid "Exp. Selected"
 msgstr "Export sélection"
 
-#: ImportExport.php:151
+#: ImportExport.php:158
 msgid "Export layouts of selected pages"
 msgstr "Exporter les mises en page des pages sélectionnées"
 
-#: ImportExport.php:152
+#: ImportExport.php:159
 msgid "Exp. Layouts"
 msgstr "Export mises en page"
 
-#: ImportExport.php:178
+#: ImportExport.php:185
 msgid "Page export settings"
 msgstr "Paramètres d'exportations des pages"
 
-#: ImportExport.php:181
+#: ImportExport.php:188
 msgid "Include local media"
 msgstr "Inclure les médias locaux"
 
-#: ImportExport.php:184
+#: ImportExport.php:191
 msgid "Include timeline options (dsmcc, timeline_scenario)"
 msgstr "Inclure les options de ligne de temps (DSMCC, scénario)"
 
-#: ImportExport.php:187
+#: ImportExport.php:194
 msgid "Include custom styles"
 msgstr "Inclure des styles personnalisés"
 
-#: ImportExport.php:195
+#: ImportExport.php:202
 msgid "Title"
 msgstr "Titre"
 
-#: ImportExport.php:196
+#: ImportExport.php:203
 msgid "Id"
 msgstr ""
 
-#: ImportExport.php:197
+#: ImportExport.php:204
 msgid "Layout"
 msgstr "Mise en page"
 
-#: ImportExport.php:198
+#: ImportExport.php:205
 msgid "Map"
 msgstr "Aperçu"
 
-#: ImportExport.php:199
+#: ImportExport.php:206
 msgid "Export"
 msgstr ""
 

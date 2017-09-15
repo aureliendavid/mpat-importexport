@@ -75,13 +75,17 @@ class ImportExport {
 
         <script src="<?php echo plugin_dir_url(__FILE__); ?>mpat_import_export.js" > </script>
 
+        <div style="" >
+        <details id="options">
+        <summary><?php _e('Options','mpat-importexport'); ?></summary>
+
         <form method="post" action="./options.php">
         <?php settings_fields( 'mpatImportExport-settings-group' ); ?>
         <?php do_settings_sections( 'mpatImportExport-settings-group' ); ?>
         <table class="form-table" style="width: 300px; border-width: 1px;">
             <tr>
             <td>
-                <td><?php _e('Use compression while import and export') ?></td>
+                <td><?php _e('Use compression while import and export','mpat-importexport') ?></td>
                 <td><input type="checkbox" name="mpatImportExport" <?php echo $zipped ?> /></td>
             </tr>
             <tr>
@@ -93,6 +97,10 @@ class ImportExport {
         </table>
         
         </form>   
+
+        </details>
+        </div>
+
         <div id="toolbarzone">
         
             <div id="importzone" class="iexport-toolbar">
