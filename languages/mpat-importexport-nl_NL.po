@@ -5,18 +5,6 @@ msgstr ""
 "Project-Id-Version: MPAT ImportExport 1.0.beta\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mpat-"
 "importexport\n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2017-08-28 18:47:35+00:00\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-08-28 20:49+0200\n"
-"Language-Team: \n"
-"X-Generator: Poedit 2.0.3\n"
-"Last-Translator: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: nl_NL\n"
-=======
 "POT-Creation-Date: 2017-09-15 14:11+0200\n"
 "PO-Revision-Date: 2017-09-15 14:11+0200\n"
 "Last-Translator: \n"
@@ -27,99 +15,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.11\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
->>>>>>> c291f7558cc9238fd9b3dc0b67f56f29d7f19107
 
 #: ImportExport.php:25
 msgid "ImportExport"
 msgstr ""
 
-<<<<<<< HEAD
-#: ImportExport.php:65
-msgid "MPAT Importer/Exporter for"
-msgstr ""
-
-#: ImportExport.php:80
-msgid "Import new pages"
-msgstr ""
-
-#: ImportExport.php:81
-msgid "Import"
-msgstr ""
-
-#: ImportExport.php:92
-msgid "Import new layouts"
-msgstr ""
-
-#: ImportExport.php:93
-msgid "Import Layouts"
-msgstr ""
-
-#: ImportExport.php:105
-msgid "Export all pages"
-msgstr ""
-
-#: ImportExport.php:106
-msgid "Export ALL"
-msgstr ""
-
-#: ImportExport.php:111
-msgid "Export selected pages and media"
-msgstr ""
-
-#: ImportExport.php:112
-msgid "Exp. Selected w. Media"
-msgstr ""
-
-#: ImportExport.php:117
-msgid "Export selected pages"
-msgstr ""
-
-#: ImportExport.php:118
-msgid "Exp. Selected"
-msgstr ""
-
-#: ImportExport.php:123
-msgid "Export layouts of selected pages"
-msgstr ""
-
-#: ImportExport.php:124
-msgid "Exp. Layouts"
-msgstr ""
-
-#: ImportExport.php:150
-msgid "Page export settings"
-msgstr ""
-
-#: ImportExport.php:153
-msgid "Include local media"
-msgstr ""
-
-#: ImportExport.php:156
-msgid "Include timeline options (dsmcc, timeline_scenario)"
-msgstr ""
-
-#: ImportExport.php:159
-msgid "Include custom styles"
-msgstr ""
-
-#: ImportExport.php:167
-msgid "Title"
-msgstr ""
-
-#: ImportExport.php:168
-msgid "Id"
-msgstr ""
-
-#: ImportExport.php:169
-msgid "Layout"
-msgstr ""
-
-#: ImportExport.php:170
-msgid "Map"
-msgstr ""
-
-#: ImportExport.php:171
-=======
 #: ImportExport.php:74
 msgid "MPAT Importer/Exporter for"
 msgstr "MPAT Import/Export voor"
@@ -213,7 +113,6 @@ msgid "Map"
 msgstr "Voorbeeld"
 
 #: ImportExport.php:206
->>>>>>> c291f7558cc9238fd9b3dc0b67f56f29d7f19107
 msgid "Export"
 msgstr ""
 
@@ -227,11 +126,7 @@ msgstr ""
 
 #. Description of the plugin/theme
 msgid "Import and export MPAT pages and layout"
-<<<<<<< HEAD
-msgstr ""
-=======
 msgstr "Importeer en exporteer MPAT pagina's en opmaak"
->>>>>>> c291f7558cc9238fd9b3dc0b67f56f29d7f19107
 
 #. Author of the plugin/theme
 msgid "Aurelien David"
@@ -240,9 +135,6 @@ msgstr ""
 #. Author URI of the plugin/theme
 msgid "https://github.com/aureliendavid/"
 msgstr ""
-<<<<<<< HEAD
-=======
 
 #~ msgid "Compress files"
 #~ msgstr "Maak gebruik van gecomprimeerde import-export bestanden"
->>>>>>> c291f7558cc9238fd9b3dc0b67f56f29d7f19107
