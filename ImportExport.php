@@ -23,10 +23,14 @@ class ImportExport {
     function import_export_init() {
         load_plugin_textdomain('mpat-importexport', false, basename( dirname( __FILE__ ) ) . '/languages' );
         add_menu_page('MPAT ImportExport', __('ImportExport', 'mpat-importexport'), 'edit_pages', 'MPAT_ImportExport', array(&$this, 'display'), 'dashicons-download');
+        
+        // added option for gz compression
+        add_option('mpatImportExport', '');
+        register_setting('mpatImportExport-settings-group', 'mpatImportExport' );
     }
 
     function import_export_onload() {
-
+        $zipped = get_option('mpatImportExport') == 'on';
         if ( isset($_GET['page']) && strtolower($_GET['page']) === "mpat_importexport" )
         {
 
@@ -35,7 +39,7 @@ class ImportExport {
             switch ($action) {
                 case 'export':
 
-                    handle_export();
+                    handle_export($zipped);
 
                     exit();
                     break;
@@ -44,7 +48,7 @@ class ImportExport {
 
                 case 'import':
 
-                    $this->message = handle_import();
+                    $this->message = handle_import($zipped);
 
                     break;
                 default:
@@ -58,6 +62,11 @@ class ImportExport {
 
     function display() {
 
+        $zipped = "";
+        if(get_option('mpatImportExport') == 'on'){
+            $zipped="checked";
+        }
+
         wp_enqueue_style('mpat-importexport', plugin_dir_url(__FILE__) . 'mpat_import_export.css');
 
 ?>
@@ -66,8 +75,34 @@ class ImportExport {
 
         <script src="<?php echo plugin_dir_url(__FILE__); ?>mpat_import_export.js" > </script>
 
-        <div id="toolbarzone">
+        <div style="" >
+        <details id="options">
+        <summary><?php _e('Options','mpat-importexport'); ?></summary>
 
+        <form method="post" action="./options.php">
+        <?php settings_fields( 'mpatImportExport-settings-group' ); ?>
+        <?php do_settings_sections( 'mpatImportExport-settings-group' ); ?>
+        <table class="form-table" style="width: 300px; border-width: 1px;">
+            <tr>
+            <td>
+                <td><?php _e('Use compression while import and export','mpat-importexport') ?></td>
+                <td><input type="checkbox" name="mpatImportExport" <?php echo $zipped ?> /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <?php submit_button(); ?>
+                </td>
+            </tr>     
+            
+        </table>
+        
+        </form>   
+
+        </details>
+        </div>
+
+        <div id="toolbarzone">
+        
             <div id="importzone" class="iexport-toolbar">
 
                 <div style="display: inline-block;">
