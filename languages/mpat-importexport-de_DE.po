@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: MPAT ImportExport 1.0.beta\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mpat-"
 "importexport\n"
-"POT-Creation-Date: 2017-09-15 14:09+0200\n"
-"PO-Revision-Date: 2017-09-15 14:09+0200\n"
+"POT-Creation-Date: 2017-09-21 10:26+0200\n"
+"PO-Revision-Date: 2017-09-21 10:26+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -18,11 +18,11 @@ msgstr ""
 
 #: ImportExport.php:25
 msgid "ImportExport"
-msgstr "Import Export"
+msgstr "Import / Export"
 
 #: ImportExport.php:74
 msgid "MPAT Importer/Exporter for"
-msgstr "MPAT Importeur / Exporteur für"
+msgstr "MPAT Importer / Exporter für"
 
 #: ImportExport.php:80
 msgid "Options"
@@ -38,7 +38,7 @@ msgstr "Neue Seiten importieren"
 
 #: ImportExport.php:116
 msgid "Import"
-msgstr "Einführen"
+msgstr "Importieren"
 
 #: ImportExport.php:127
 msgid "Import new layouts"
@@ -54,15 +54,15 @@ msgstr "Alle Seiten exportieren"
 
 #: ImportExport.php:141
 msgid "Export ALL"
-msgstr "ALLE exportieren"
+msgstr "ALLES exportieren"
 
 #: ImportExport.php:146
 msgid "Export selected pages and media"
-msgstr "Ausgewählte Seiten und Medien exportieren"
+msgstr "Ausgewählte Seiten und Medien "
 
 #: ImportExport.php:147
 msgid "Exp. Selected w. Media"
-msgstr "Exp. Ausgewählte & Medien"
+msgstr "Ausgew. Seiten inkl. Medien exportieren"
 
 #: ImportExport.php:152
 msgid "Export selected pages"
@@ -70,15 +70,15 @@ msgstr "Ausgewählte Seiten exportieren"
 
 #: ImportExport.php:153
 msgid "Exp. Selected"
-msgstr "Exp. Ausgewählt"
+msgstr "Auswahl exportieren"
 
 #: ImportExport.php:158
 msgid "Export layouts of selected pages"
-msgstr "Exportieren von Layouts ausgewählter Seiten"
+msgstr "Layouts ausgewählter Seiten exportieren"
 
 #: ImportExport.php:159
 msgid "Exp. Layouts"
-msgstr "Exp. Layouts"
+msgstr "Exportiere Layouts"
 
 #: ImportExport.php:185
 msgid "Page export settings"
@@ -90,11 +90,11 @@ msgstr "Lokale Medien einbeziehen"
 
 #: ImportExport.php:191
 msgid "Include timeline options (dsmcc, timeline_scenario)"
-msgstr "Zeitleistenoptionen einschließen (dsmcc, timeline_scenario)"
+msgstr "Timeline-Optionen einbeziehen (dsmcc, timeline_scenario)"
 
 #: ImportExport.php:194
 msgid "Include custom styles"
-msgstr "Include benutzerdefinierte Stile"
+msgstr "Benutzerdefinierte Stile einbeziehen"
 
 #: ImportExport.php:202
 msgid "Title"
@@ -102,15 +102,15 @@ msgstr "Titel"
 
 #: ImportExport.php:203
 msgid "Id"
-msgstr "Identität"
+msgstr "ID"
 
 #: ImportExport.php:204
 msgid "Layout"
-msgstr "Seitenlayout"
+msgstr "Seiten-Layout"
 
 #: ImportExport.php:205
 msgid "Map"
-msgstr "Vorschau"
+msgstr "Überischtskarte"
 
 #: ImportExport.php:206
 msgid "Export"
@@ -118,7 +118,7 @@ msgstr "Export"
 
 #. Plugin Name of the plugin/theme
 msgid "MPAT ImportExport"
-msgstr "MPAT ImportExport"
+msgstr "MPAT Import / Export"
 
 #. Plugin URI of the plugin/theme
 msgid "https://github.com/aureliendavid/mpat-importexport/"
@@ -126,7 +126,7 @@ msgstr ""
 
 #. Description of the plugin/theme
 msgid "Import and export MPAT pages and layout"
-msgstr "Import und Export von MPAT-Seiten und Seitenllayout"
+msgstr "Import und Export von MPAT-Seiten und Seiten-Layouts"
 
 #. Author of the plugin/theme
 msgid "Aurelien David"
