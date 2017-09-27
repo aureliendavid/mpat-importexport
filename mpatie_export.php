@@ -141,7 +141,11 @@ function handle_export() {
       addPageLinks($p);
     }
     unset($p);
-    header("Content-disposition: attachment; filename=all-pages.mpat-page");
+      if (isset($_POST['exportall'])) {
+          header("Content-disposition: attachment; filename=all-pages.mpat-page");
+      } else {
+          header("Content-disposition: attachment; filename=selected-pages.mpat-page");
+      }
     echo json_encode($pages);
 
   } else if (isset($_POST['exportlayouts']) && $_POST['exportlayouts'] == "1") {
