@@ -114,10 +114,15 @@ function addOptions(&$pages) {
 
 }
 
-function handle_export() {
+function handle_export($zipped) {
 
-  header("Content-Type: application/json");
-
+  if($zipped){
+    header("Content-Type: application/x-gzip");
+  }
+  else{
+    header("Content-Type: application/json");
+  }   
+  
   if (isset($_POST['exportall']) || isset($_POST['exportpages'])) {
 
     $ids = isset($_POST['pageid']) ? $_POST['pageid'] : null;
@@ -142,11 +147,24 @@ function handle_export() {
     }
     unset($p);
       if (isset($_POST['exportall'])) {
-          header("Content-disposition: attachment; filename=all-pages.mpat-page");
-      } else {
-          header("Content-disposition: attachment; filename=selected-pages.mpat-page");
+        if($zipped){
+            header("Content-disposition: attachment; filename=all-pages.mpat-page.gz");
+            echo gzcompress(json_encode($pages), 9);
+        }else{
+            header("Content-disposition: attachment; filename=all-pages.mpat-page");
+            echo json_encode($pages);
+        }
+    } else {
+            if($zipped){
+                header("Content-disposition: attachment; filename=select-pages.mpat-page.gz");
+                echo gzcompress(json_encode($pages), 9);
+            }else{
+                header("Content-disposition: attachment; filename=select-pages.mpat-page");
+                echo json_encode($pages);
+            }
       }
-    echo json_encode($pages);
+    
+
 
   } else if (isset($_POST['exportlayouts']) && $_POST['exportlayouts'] == "1") {
 
@@ -163,8 +181,14 @@ function handle_export() {
       }
     }
 
-    header("Content-disposition: attachment; filename=selected-layouts.mpat-layout");
-    echo json_encode($layouts);
+    if($zipped){
+        header("Content-disposition: attachment; filename=selected-layouts.mpat-layout.gz");
+        echo gzcompress(json_encode($layouts), 9);
+    }else{
+        header("Content-disposition: attachment; filename=selected-layouts.mpat-layout");
+        echo json_encode($layouts);
+    }
+    
   }
 
 

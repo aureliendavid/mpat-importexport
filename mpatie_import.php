@@ -5,7 +5,7 @@ use MPAT\ImportExport\ImportExport;
 
 $nullGuard = null;
 
-function handle_import() {
+function handle_import($zipped) {
 
 	if ( isset($_FILES['layout']) ) {
 
@@ -32,8 +32,14 @@ function handle_import() {
 			return $message;
         }
 
-		$json = file_get_contents( $_FILES['layout']['tmp_name'] );
-		$layout = json_decode($json, true);
+		
+		if($zipped)
+		{
+			$json = gzuncompress(file_get_contents( $_FILES['layout']['tmp_name'] ));
+			$layout = json_decode($json, true);
+		}else{
+			$json = file_get_contents( $_FILES['layout']['tmp_name'] );
+		}
 
 		if (isset($page["page_layout"])) {
 
@@ -102,8 +108,15 @@ function handle_import() {
 			return $message;
         }
 
-		$json = file_get_contents( $_FILES['page']['tmp_name'] );
-		$page = json_decode($json, true);
+		
+		if($zipped)
+		{
+			$json = gzuncompress(file_get_contents( $_FILES['page']['tmp_name'] ));
+			$page = json_decode($json, true);
+		}
+		else{
+			$json = file_get_contents( $_FILES['page']['tmp_name'] );
+		}
 
 		if (isset($page["page"])) {
 
