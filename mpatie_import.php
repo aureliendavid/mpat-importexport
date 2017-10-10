@@ -5,10 +5,10 @@ use MPAT\ImportExport\ImportExport;
 
 $nullGuard = null;
 
-function getcontents($postType,$zipped){
+function getcontents($postType, $zipped){
 	if($zipped)
 	{
-		$json = gzuncompress(file_get_contents( $_FILES[$postType]['tmp_name'] ));
+		$json = gzuncompress(file_get_contents( $_FILES[$postType]['tmp_name']));
 	}
 	else{
 		$json = file_get_contents( $_FILES[$postType]['tmp_name'] );
@@ -84,10 +84,7 @@ function handle_import($zipped) {
 			return "Added $ok layouts and $ko already existed.\n";
 
 		}
-
 		//echo '<script type="text/javascript">window.top.location.reload();</script>';
-
-
 	}
 	else if ( isset($_FILES['page']) ) {
 
@@ -115,7 +112,7 @@ function handle_import($zipped) {
         }
 
 		
-		$page = getcontents('page', $zipped);
+		$page = getcontents("page", $zipped);
 
 		if (isset($page["page"])) {
 
