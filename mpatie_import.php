@@ -5,6 +5,18 @@ use MPAT\ImportExport\ImportExport;
 
 $nullGuard = null;
 
+function getcontents($postType,$zipped){
+	if($zipped)
+	{
+		$json = gzuncompress(file_get_contents( $_FILES[$postType]['tmp_name'] ));
+	}
+	else{
+		$json = file_get_contents( $_FILES[$postType]['tmp_name'] );
+	}
+	$page = json_decode($json, true);
+	return $page;
+}
+
 function handle_import($zipped) {
 
 	if ( isset($_FILES['layout']) ) {
@@ -33,13 +45,7 @@ function handle_import($zipped) {
         }
 
 		
-		if($zipped)
-		{
-			$json = gzuncompress(file_get_contents( $_FILES['layout']['tmp_name'] ));
-			$layout = json_decode($json, true);
-		}else{
-			$json = file_get_contents( $_FILES['layout']['tmp_name'] );
-		}
+		$page = getcontents('layout', $zipped);
 
 		if (isset($page["page_layout"])) {
 
@@ -109,14 +115,7 @@ function handle_import($zipped) {
         }
 
 		
-		if($zipped)
-		{
-			$json = gzuncompress(file_get_contents( $_FILES['page']['tmp_name'] ));
-			$page = json_decode($json, true);
-		}
-		else{
-			$json = file_get_contents( $_FILES['page']['tmp_name'] );
-		}
+		$page = getcontents('page', $zipped);
 
 		if (isset($page["page"])) {
 
