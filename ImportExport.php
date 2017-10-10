@@ -174,8 +174,15 @@ class ImportExport {
                                     echo "<td>" . $lname . "</td>\n";
                                     echo "<td><canvas id='canvas-$id' width='128' height='72' /></td>\n";
 
-                                    $zones = $o['page_layout']['meta']['mpat_content']['layout'];
-                                    $content = $o['page']['meta']['mpat_content']['content'];
+                                    if (isset($o['page_layout']['meta']['mpat_content']['layout']))
+                                        $zones = $o['page_layout']['meta']['mpat_content']['layout'];
+                                    else
+                                        $zones = array();
+
+                                    if (isset($o['page']['meta']['mpat_content']['content']))
+                                        $content = $o['page']['meta']['mpat_content']['content'];
+                                    else
+                                        $content = array();
 
                                     echo "<script>\n";
                                     echo "var ctx = window.getCtx('$id');\n";
