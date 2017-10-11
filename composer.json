@@ -1,7 +1,7 @@
 {
     "name" : "mpat/mpat-importexport",
     "description" : "MPAT import and export pages",
-    "version" : "1.0.0",
+    "version" : "1.0.1",
     "license" : "GPL2",
     "authors" : [{
         "name" : "Aurelien David",

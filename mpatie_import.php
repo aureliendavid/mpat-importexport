@@ -5,7 +5,19 @@ use MPAT\ImportExport\ImportExport;
 
 $nullGuard = null;
 
-function handle_import() {
+function getcontents($postType, $zipped){
+	if($zipped)
+	{
+		$json = gzuncompress(file_get_contents( $_FILES[$postType]['tmp_name']));
+	}
+	else{
+		$json = file_get_contents( $_FILES[$postType]['tmp_name'] );
+	}
+	$page = json_decode($json, true);
+	return $page;
+}
+
+function handle_import($zipped) {
 
 	if ( isset($_FILES['layout']) ) {
 
@@ -32,8 +44,8 @@ function handle_import() {
 			return $message;
         }
 
-		$json = file_get_contents( $_FILES['layout']['tmp_name'] );
-		$layout = json_decode($json, true);
+		
+		$page = getcontents('layout', $zipped);
 
 		if (isset($page["page_layout"])) {
 
@@ -72,10 +84,7 @@ function handle_import() {
 			return "Added $ok layouts and $ko already existed.\n";
 
 		}
-
 		//echo '<script type="text/javascript">window.top.location.reload();</script>';
-
-
 	}
 	else if ( isset($_FILES['page']) ) {
 
@@ -102,8 +111,8 @@ function handle_import() {
 			return $message;
         }
 
-		$json = file_get_contents( $_FILES['page']['tmp_name'] );
-		$page = json_decode($json, true);
+		
+		$page = getcontents("page", $zipped);
 
 		if (isset($page["page"])) {
 
@@ -194,22 +203,38 @@ function handle_import() {
 
 					$needs_update = 0;
 
-					foreach ($p["page_links"] as $l) {
+                    foreach ($p["page_links"] as $l) {
 
-						if (isset($dict[ $l["id"] ])) {
+                        if (isset($dict[ $l["id"] ])) {
 
-							$new_link_id = $dict[ $l["id"] ] ;
-							$new_value = "page://" . $new_link_id;
+                            $new_link_id = $dict[ $l["id"] ] ;
+                            $new_value = "page://" . $new_link_id;
 
-							updateMetaFromPath($meta["content"], $l["path"], $new_value);
+                            updateMetaFromPath($meta["content"], $l["path"], $new_value);
 
-							$needs_update = 1;
+                            $needs_update = 1;
 
-						}
-						else {
-							$message .= "Page $new_id points to page ".$l["id"]." which wasn't imported.<br />\n";
-						}
-					}
+                        }
+                        else {
+                            $message .= "Page $new_id points to page ".$l["id"]." which wasn't imported.<br />\n";
+                        }
+                    }
+
+                    foreach ($p["clones"] as $l) {
+
+                        if (isset($dict[ $l["id"] ])) {
+
+                            $new_link_id = $dict[ $l["id"] ] ;
+
+                            $meta["content"][$l['box']][$l['state']]['data']['pageId'] = $new_link_id;
+
+                            $needs_update = 1;
+
+                        }
+                        else {
+                            $message .= "Page $new_id points to page ".$l["id"]." which wasn't imported.<br />\n";
+                        }
+                    }
 
 					if ($needs_update) {
 
@@ -431,9 +456,10 @@ function importSinglePage(&$page, &$mediadata = null) {
 
 	}
 
-
+  $pt = 'page';
+	if (array_key_exists('post_type', $page["page"])) $pt = $page["page"]['post_type'];
 	$new_page = array(
-		'post_type' => $page["page"]['post_type'],
+		'post_type' => $pt,
 		'post_status' => 'publish',
 		'post_slug' => 'page',
 		'post_title' => $title,

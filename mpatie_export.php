@@ -1,7 +1,5 @@
 <?php
-use MPAT\ImportExport\ImportExport;
 namespace MPAT\ImportExport;
-
 
 function urlIsLocal($url) {
 
@@ -16,9 +14,9 @@ function dfs_links($content, &$links, $path) {
 
         if (preg_match("/page:\/\/(\d+)/", $content, $m)) {
             array_push($links, array(
-                                "path" => $path,
-                                "text" => $content,
-                                "id"   => $m[1]
+                "path" => $path,
+                "text" => $content,
+                "id"   => $m[1]
             ));
         }
 
@@ -36,6 +34,25 @@ function dfs_links($content, &$links, $path) {
     }
 
 }
+
+function dfs_clones($content, &$clones) {
+    foreach ($content as $k => $v) {
+        // box level
+        foreach($v as $kk => $vv) {
+            // state level
+            if (array_key_exists( 'type', $vv)) {
+                if ($vv['type'] == 'clone') {
+                    array_push($clones, array(
+                        "box" => $k,
+                        "state" => $kk,
+                        "id" => $vv['data']['pageId']
+                    ));
+                }
+            }
+        }
+    }
+}
+
 
 function addPageLinks(&$page) {
 
@@ -55,6 +72,11 @@ function addPageLinks(&$page) {
 
     $page["page_links"] = $links;
 
+    $clones = array();
+
+    dfs_clones($content, $clones);
+
+    $page["clones"] = $clones;
 
 }
 
@@ -92,55 +114,82 @@ function addOptions(&$pages) {
 
 }
 
-function handle_export() {
+function handle_export($zipped) {
 
-	header("Content-Type: application/json");
+  if($zipped){
+    header("Content-Type: application/x-gzip");
+  }
+  else{
+    header("Content-Type: application/json");
+  }   
+  
+  if (isset($_POST['exportall']) || isset($_POST['exportpages'])) {
 
-    if ( isset($_POST['exportall']) || isset($_POST['exportpages']) ) {
+    $ids = isset($_POST['pageid']) ? $_POST['pageid'] : null;
 
-        $ids = isset($_POST['pageid']) ? $_POST['pageid'] : null;
+    $pages = ImportExport::getAll($ids);
 
-        $pages = ImportExport::getAll($ids);
+    addOptions($pages);
 
-        addOptions($pages);
+    if (isset($_POST['chk_addmedia'])) {
 
-        if (isset($_POST['chk_addmedia'])) {
-
-            $mediadata = array("mediadata" => array());
-            foreach ($pages as &$o) {
-                addMedia($o, $mediadata["mediadata"]);
-            }
-            unset($o);
-            $pages[] = $mediadata;
-
-        }
-
-        foreach ($pages as &$p) {
-            addPageLinks($p);
-        }
-        unset($p);
-        header("Content-disposition: attachment; filename=all-pages.mpat-page");
-        echo json_encode($pages);
+      $mediadata = array("mediadata" => array());
+      foreach ($pages as &$o) {
+        addMedia($o, $mediadata["mediadata"]);
+      }
+      unset($o);
+      $pages[] = $mediadata;
 
     }
-    else if ( isset($_POST['exportlayouts']) && $_POST['exportlayouts'] == "1" ) {
 
-        $layouts = array();
-        $done = array();
-
-        $ids = isset($_POST['pageid']) ? $_POST['pageid'] : null;
-        $pages = ImportExport::getAll($ids);
-
-        foreach ($pages as $o) {
-            if (isset($o["page_layout"]) && isset($o["page_layout"]["ID"]) && !in_array($o["page_layout"]["ID"], $done)) {
-                array_push($layouts, array( "page_layout" => $o["page_layout"]));
-                array_push($done, $o["page_layout"]["ID"]);
-            }
+    foreach ($pages as &$p) {
+      addPageLinks($p);
+    }
+    unset($p);
+      if (isset($_POST['exportall'])) {
+        if($zipped){
+            header("Content-disposition: attachment; filename=all-pages.mpat-page.gz");
+            echo gzcompress(json_encode($pages), 9);
+        }else{
+            header("Content-disposition: attachment; filename=all-pages.mpat-page");
+            echo json_encode($pages);
         }
+    } else {
+            if($zipped){
+                header("Content-disposition: attachment; filename=select-pages.mpat-page.gz");
+                echo gzcompress(json_encode($pages), 9);
+            }else{
+                header("Content-disposition: attachment; filename=select-pages.mpat-page");
+                echo json_encode($pages);
+            }
+      }
+    
 
+
+  } else if (isset($_POST['exportlayouts']) && $_POST['exportlayouts'] == "1") {
+
+    $layouts = array();
+    $done = array();
+
+    $ids = isset($_POST['pageid']) ? $_POST['pageid'] : null;
+    $pages = ImportExport::getAll($ids);
+
+    foreach ($pages as $o) {
+      if (isset($o["page_layout"]) && isset($o["page_layout"]["ID"]) && !in_array($o["page_layout"]["ID"], $done)) {
+        array_push($layouts, array("page_layout" => $o["page_layout"]));
+        array_push($done, $o["page_layout"]["ID"]);
+      }
+    }
+
+    if($zipped){
+        header("Content-disposition: attachment; filename=selected-layouts.mpat-layout.gz");
+        echo gzcompress(json_encode($layouts), 9);
+    }else{
         header("Content-disposition: attachment; filename=selected-layouts.mpat-layout");
         echo json_encode($layouts);
     }
+    
+  }
 
 
 }

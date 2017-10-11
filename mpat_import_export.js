@@ -3,18 +3,18 @@ document.addEventListener("DOMContentLoaded", function(){
 
   document.getElementById("page-btn").onclick = function() {
       document.getElementById("page-fileinput").click();
-  }
+  };
   document.getElementById("page-fileinput").onchange = function() {
       document.getElementById("page-form").submit();
       document.getElementById("page-fileinput").value = "";
-  }
+  };
   document.getElementById("layout-btn").onclick = function() {
       document.getElementById("layout-fileinput").click();
-  }
+  };
   document.getElementById("layout-fileinput").onchange = function() {
       document.getElementById("layout-form").submit();
       document.getElementById("layout-fileinput").value = "";
-  }
+  };
 
   var checkboxes = document.getElementsByName("pageid[]");
   for (var i = 0; i < checkboxes.length; i++) {

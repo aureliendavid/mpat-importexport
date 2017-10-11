@@ -1,0 +1,140 @@
+# Copyright (C) 2017 MPAT ImportExport
+# This file is distributed under the same license as the MPAT ImportExport package.
+msgid ""
+msgstr ""
+"Project-Id-Version: MPAT ImportExport 1.0.beta\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mpat-"
+"importexport\n"
+"POT-Creation-Date: 2017-09-15 12:09:21+00:00\n"
+"PO-Revision-Date: 2017-09-17 21:11+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: nl_NL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ImportExport.php:25
+msgid "ImportExport"
+msgstr ""
+
+#: ImportExport.php:74
+msgid "MPAT Importer/Exporter for"
+msgstr "MPAT Import/Export voor"
+
+#: ImportExport.php:80
+msgid "Options"
+msgstr "Opties"
+
+#: ImportExport.php:88
+msgid "Use compression while import and export"
+msgstr "Gebruik compressie tijdens import en export"
+
+#: ImportExport.php:115
+msgid "Import new pages"
+msgstr "Importeer nieuwe paginas"
+
+#: ImportExport.php:116
+msgid "Import"
+msgstr "Importeer"
+
+#: ImportExport.php:127
+msgid "Import new layouts"
+msgstr "Importeer nieuwe opmaak"
+
+#: ImportExport.php:128
+msgid "Import Layouts"
+msgstr "Imp. Opmaak"
+
+#: ImportExport.php:140
+msgid "Export all pages"
+msgstr "Exporteer alle paginas"
+
+#: ImportExport.php:141
+msgid "Export ALL"
+msgstr "Exp. ALLES"
+
+#: ImportExport.php:146
+msgid "Export selected pages and media"
+msgstr "Exporteer geselecteerde paginas en media"
+
+#: ImportExport.php:147
+msgid "Exp. Selected w. Media"
+msgstr "Exp. selectie & media"
+
+#: ImportExport.php:152
+msgid "Export selected pages"
+msgstr "Exporteer pagina selectie"
+
+#: ImportExport.php:153
+msgid "Exp. Selected"
+msgstr "Exp. Selectie"
+
+#: ImportExport.php:158
+msgid "Export layouts of selected pages"
+msgstr "Opmaak exporteren van geselecteerde pagina's"
+
+#: ImportExport.php:159
+msgid "Exp. Layouts"
+msgstr ""
+
+#: ImportExport.php:185
+msgid "Page export settings"
+msgstr "Pagina export instellingen"
+
+#: ImportExport.php:188
+msgid "Include local media"
+msgstr "Inclusief lokale media"
+
+#: ImportExport.php:191
+msgid "Include timeline options (dsmcc, timeline_scenario)"
+msgstr "Inclusief tijdlijnopties (dsmcc, timeline_scenario)"
+
+#: ImportExport.php:194
+msgid "Include custom styles"
+msgstr "Inclusief aangepaste stijlen"
+
+#: ImportExport.php:202
+msgid "Title"
+msgstr "Titel"
+
+#: ImportExport.php:203
+msgid "Id"
+msgstr "ID"
+
+#: ImportExport.php:204
+msgid "Layout"
+msgstr "Opmaak"
+
+#: ImportExport.php:205
+msgid "Map"
+msgstr "Voorbeeld"
+
+#: ImportExport.php:206
+msgid "Export"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "MPAT ImportExport"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/aureliendavid/mpat-importexport/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Import and export MPAT pages and layout"
+msgstr "Importeer en exporteer MPAT pagina's en opmaak"
+
+#. Author of the plugin/theme
+msgid "Aurelien David"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://github.com/aureliendavid/"
+msgstr ""
+
+#~ msgid "Compress files"
+#~ msgstr "Maak gebruik van gecomprimeerde import-export bestanden"
