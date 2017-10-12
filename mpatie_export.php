@@ -121,8 +121,8 @@ function handle_export($zipped) {
   }
   else{
     header("Content-Type: application/json");
-  }   
-  
+  }
+
   if (isset($_POST['exportall']) || isset($_POST['exportpages'])) {
 
     $ids = isset($_POST['pageid']) ? $_POST['pageid'] : null;
@@ -163,7 +163,7 @@ function handle_export($zipped) {
                 echo json_encode($pages);
             }
       }
-    
+
 
 
   } else if (isset($_POST['exportlayouts']) && $_POST['exportlayouts'] == "1") {
@@ -188,7 +188,7 @@ function handle_export($zipped) {
         header("Content-disposition: attachment; filename=selected-layouts.mpat-layout");
         echo json_encode($layouts);
     }
-    
+
   }
 
 
@@ -202,7 +202,12 @@ function dumpMedia($path, &$mediadata) {
 
         // only export media from the media library
         if (urlIsLocal($url)) {
-            $mediadata[$path] = base64_encode(file_get_contents($url));
+
+            $content = @file_get_contents($url);
+            if ($content === false)
+                return;
+
+            $mediadata[$path] = base64_encode($content);
         }
 
     }
