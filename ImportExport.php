@@ -23,7 +23,7 @@ class ImportExport {
     function import_export_init() {
         load_plugin_textdomain('mpat-importexport', false, basename( dirname( __FILE__ ) ) . '/languages' );
         add_menu_page('MPAT ImportExport', __('ImportExport', 'mpat-importexport'), 'edit_pages', 'MPAT_ImportExport', array(&$this, 'display'), 'dashicons-download');
-        
+
         // added option for gz compression
         add_option('mpatImportExport', '');
         register_setting('mpatImportExport-settings-group', 'mpatImportExport' );
@@ -92,17 +92,17 @@ class ImportExport {
                 <td colspan="2">
                     <?php submit_button(); ?>
                 </td>
-            </tr>     
-            
+            </tr>
+
         </table>
-        
-        </form>   
+
+        </form>
 
         </details>
         </div>
 
         <div id="toolbarzone">
-        
+
             <div id="importzone" class="iexport-toolbar">
 
                 <div style="display: inline-block;">
@@ -211,7 +211,7 @@ class ImportExport {
                         $all = ImportExport::getAll();
                         $first_model = false;
 
-                        echo "<tr><td colspan='100'><b><?php e('Pages', 'mpat-importexport'); ?></b></td></tr>";
+                        echo "<tr><td colspan='100'><b>"._e('Pages', 'mpat-importexport')."</b></td></tr>";
 
                         foreach ($all as $o)  {
                             if (isset($o['page'])) {
@@ -220,7 +220,7 @@ class ImportExport {
 
                                 if (!$first_model) {
                                     if ($o['page']['post_type'] == 'page_model') {
-                                        echo "<tr><td colspan='100'><b><?php _e('Page Models', 'mpat-importexport'); ?></b></td></tr>";
+                                        echo "<tr><td colspan='100'><b>"._e('Page Models', 'mpat-importexport')."</b></td></tr>";
                                         $first_model = true;
                                     }
                                 }
@@ -241,7 +241,7 @@ class ImportExport {
                                     echo "<td>" . $lname . "</td>\n";
                                     echo "<td><canvas id='canvas-$id' width='128' height='72' /></td>\n";
 
-                                    
+
                                     //$zones = $o['page_layout']['meta']['mpat_content']['layout'];
                                     //$content = $o['page']['meta']['mpat_content']['content'];
                                     if (isset($o['page_layout']['meta']['mpat_content']['layout']))
