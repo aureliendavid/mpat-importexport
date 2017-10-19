@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: MPAT ImportExport 1.0.beta\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mpat-"
 "importexport\n"
-"POT-Creation-Date: 2017-09-15 14:10+0200\n"
-"PO-Revision-Date: 2017-09-15 14:10+0200\n"
+"POT-Creation-Date: 2017-10-19 14:33+0200\n"
+"PO-Revision-Date: 2017-10-19 14:33+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -20,101 +20,117 @@ msgstr ""
 msgid "ImportExport"
 msgstr "Tuonti ja vienti"
 
-#: ImportExport.php:74
+#: ImportExport.php:32
+msgid "Import Export"
+msgstr ""
+
+#: ImportExport.php:34 ImportExport.php:113
+msgid "Use compression during import and export"
+msgstr ""
+
+#: ImportExport.php:40
+msgid "Compression"
+msgstr ""
+
+#: ImportExport.php:99
 msgid "MPAT Importer/Exporter for"
 msgstr "MPAT maahantuoja / viejä"
 
-#: ImportExport.php:80
+#: ImportExport.php:105
 msgid "Options"
 msgstr "Vaihtoehdot"
 
-#: ImportExport.php:88
-msgid "Use compression while import and export"
-msgstr "Käytä pakkaamista tuonnin ja viennin aikana"
-
-#: ImportExport.php:115
+#: ImportExport.php:140
 msgid "Import new pages"
 msgstr "Tuo uudet sivut"
 
-#: ImportExport.php:116
+#: ImportExport.php:141
 msgid "Import"
 msgstr "Tuonti"
 
-#: ImportExport.php:127
+#: ImportExport.php:152
 msgid "Import new layouts"
 msgstr "Tuo uudet ulkoasut"
 
-#: ImportExport.php:128
+#: ImportExport.php:153
 msgid "Import Layouts"
 msgstr "Tuo asettelut"
 
-#: ImportExport.php:140
+#: ImportExport.php:165
 msgid "Export all pages"
 msgstr "Vie kaikki sivut"
 
-#: ImportExport.php:141
+#: ImportExport.php:166
 msgid "Export ALL"
 msgstr "Vie kaikki"
 
-#: ImportExport.php:146
+#: ImportExport.php:171
 msgid "Export selected pages and media"
 msgstr "Vie valitut sivut ja tiedotusvälineet"
 
-#: ImportExport.php:147
+#: ImportExport.php:172
 msgid "Exp. Selected w. Media"
 msgstr "Vie valitut tiedo."
 
-#: ImportExport.php:152
+#: ImportExport.php:177
 msgid "Export selected pages"
 msgstr "Export selected pages"
 
-#: ImportExport.php:153
+#: ImportExport.php:178
 msgid "Exp. Selected"
 msgstr "Vie valittu"
 
-#: ImportExport.php:158
+#: ImportExport.php:183
 msgid "Export layouts of selected pages"
 msgstr "Valittujen sivujen vientisuunnitelmat"
 
-#: ImportExport.php:159
+#: ImportExport.php:184
 msgid "Exp. Layouts"
 msgstr "Vie layouts"
 
-#: ImportExport.php:185
+#: ImportExport.php:210
 msgid "Page export settings"
 msgstr "Vientiasetukset"
 
-#: ImportExport.php:188
+#: ImportExport.php:213
 msgid "Include local media"
 msgstr "Sisällytä paikalliset tiedotusvälineet"
 
-#: ImportExport.php:191
+#: ImportExport.php:216
 msgid "Include timeline options (dsmcc, timeline_scenario)"
 msgstr "Sisällytä aikajana-asetukset (dsmcc, timeline_scenario)"
 
-#: ImportExport.php:194
+#: ImportExport.php:219
 msgid "Include custom styles"
 msgstr "Sisällytä mukautettuja tyylejä"
 
-#: ImportExport.php:202
+#: ImportExport.php:227
 msgid "Title"
 msgstr "Otsikko"
 
-#: ImportExport.php:203
+#: ImportExport.php:228
 msgid "Id"
 msgstr "ID"
 
-#: ImportExport.php:204
+#: ImportExport.php:229
 msgid "Layout"
 msgstr "Layout"
 
-#: ImportExport.php:205
+#: ImportExport.php:230
 msgid "Map"
 msgstr "Kartta"
 
-#: ImportExport.php:206
+#: ImportExport.php:231
 msgid "Export"
 msgstr "Viedä"
+
+#: ImportExport.php:239
+msgid "Pages"
+msgstr ""
+
+#: ImportExport.php:248
+msgid "Page Models"
+msgstr ""
 
 #. Plugin Name of the plugin/theme
 msgid "MPAT ImportExport"
@@ -135,3 +151,6 @@ msgstr ""
 #. Author URI of the plugin/theme
 msgid "https://github.com/aureliendavid/"
 msgstr ""
+
+#~ msgid "Use compression while import and export"
+#~ msgstr "Käytä pakkaamista tuonnin ja viennin aikana"

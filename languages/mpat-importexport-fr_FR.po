@@ -5,115 +5,131 @@ msgstr ""
 "Project-Id-Version: MPAT ImportExport 1.0.beta\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mpat-"
 "importexport\n"
-"POT-Creation-Date: 2017-09-15 14:10+0200\n"
-"PO-Revision-Date: 2017-09-17 21:11+0200\n"
+"POT-Creation-Date: 2017-10-19 14:33+0200\n"
+"PO-Revision-Date: 2017-10-19 14:34+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 1.8.11\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ImportExport.php:25
 msgid "ImportExport"
 msgstr "Import/Export"
 
-#: ImportExport.php:74
+#: ImportExport.php:32
+msgid "Import Export"
+msgstr ""
+
+#: ImportExport.php:34 ImportExport.php:113
+msgid "Use compression during import and export"
+msgstr "Utiliser la compression pendant l'import et l'export"
+
+#: ImportExport.php:40
+msgid "Compression"
+msgstr "Compression"
+
+#: ImportExport.php:99
 msgid "MPAT Importer/Exporter for"
 msgstr "Importeur/Exporteur MPAT pour"
 
-#: ImportExport.php:80
+#: ImportExport.php:105
 msgid "Options"
 msgstr "Options"
 
-#: ImportExport.php:88
-msgid "Use compression while import and export"
-msgstr "Utilisez la compression pendant l'importation et l'exportation"
-
-#: ImportExport.php:115
+#: ImportExport.php:140
 msgid "Import new pages"
 msgstr "Importer de nouvelles pages"
 
-#: ImportExport.php:116
+#: ImportExport.php:141
 msgid "Import"
 msgstr "Importer"
 
-#: ImportExport.php:127
+#: ImportExport.php:152
 msgid "Import new layouts"
 msgstr "Importer de nouvelles mises en page"
 
-#: ImportExport.php:128
+#: ImportExport.php:153
 msgid "Import Layouts"
 msgstr "Importer les mises en page"
 
-#: ImportExport.php:140
+#: ImportExport.php:165
 msgid "Export all pages"
 msgstr "Exporter toutes les pages"
 
-#: ImportExport.php:141
+#: ImportExport.php:166
 msgid "Export ALL"
 msgstr "Exporter TOUT"
 
-#: ImportExport.php:146
+#: ImportExport.php:171
 msgid "Export selected pages and media"
 msgstr "Exporter les pages et les supports sélectionnés"
 
-#: ImportExport.php:147
+#: ImportExport.php:172
 msgid "Exp. Selected w. Media"
 msgstr "Exporter sélection avec médias"
 
-#: ImportExport.php:152
+#: ImportExport.php:177
 msgid "Export selected pages"
 msgstr "Exporter les pages sélectionnées"
 
-#: ImportExport.php:153
+#: ImportExport.php:178
 msgid "Exp. Selected"
 msgstr "Export sélection"
 
-#: ImportExport.php:158
+#: ImportExport.php:183
 msgid "Export layouts of selected pages"
 msgstr "Exporter les mises en page des pages sélectionnées"
 
-#: ImportExport.php:159
+#: ImportExport.php:184
 msgid "Exp. Layouts"
 msgstr "Export mises en page"
 
-#: ImportExport.php:185
+#: ImportExport.php:210
 msgid "Page export settings"
 msgstr "Paramètres d'exportations des pages"
 
-#: ImportExport.php:188
+#: ImportExport.php:213
 msgid "Include local media"
 msgstr "Inclure les médias locaux"
 
-#: ImportExport.php:191
+#: ImportExport.php:216
 msgid "Include timeline options (dsmcc, timeline_scenario)"
 msgstr "Inclure les options de ligne de temps (DSMCC, scénario)"
 
-#: ImportExport.php:194
+#: ImportExport.php:219
 msgid "Include custom styles"
 msgstr "Inclure des styles personnalisés"
 
-#: ImportExport.php:202
+#: ImportExport.php:227
 msgid "Title"
 msgstr "Titre"
 
-#: ImportExport.php:203
+#: ImportExport.php:228
 msgid "Id"
 msgstr ""
 
-#: ImportExport.php:204
+#: ImportExport.php:229
 msgid "Layout"
 msgstr "Mise en page"
 
-#: ImportExport.php:205
+#: ImportExport.php:230
 msgid "Map"
 msgstr "Aperçu"
 
-#: ImportExport.php:206
+#: ImportExport.php:231
 msgid "Export"
+msgstr ""
+
+#: ImportExport.php:239
+msgid "Pages"
+msgstr ""
+
+#: ImportExport.php:248
+msgid "Page Models"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
@@ -135,6 +151,9 @@ msgstr ""
 #. Author URI of the plugin/theme
 msgid "https://github.com/aureliendavid/"
 msgstr ""
+
+#~ msgid "Use compression while import and export"
+#~ msgstr "Utilisez la compression pendant l'importation et l'exportation"
 
 #~ msgid "Compress files"
 #~ msgstr "Utiliser des import-export comprimé en taille"
