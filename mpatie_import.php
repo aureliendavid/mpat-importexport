@@ -47,7 +47,7 @@ function handle_import($zipped) {
 			return $message;
         }
 
-		
+
 		$page = getcontents('layout', $zipped);
 
 		if (isset($page["page_layout"])) {
@@ -114,7 +114,7 @@ function handle_import($zipped) {
 			return $message;
         }
 
-		
+
 		$page = getcontents("page", $zipped);
 
 		if (isset($page["page"])) {
@@ -412,7 +412,7 @@ function importSinglePage(&$page, &$mediadata = null) {
 
 					fwrite( $fh, base64_decode($media['data']) );
 				}
-				else if ($mediadata && isset($media['url']) && isset($mediadata[ $media['url'] ]) ) {
+				else if ($mediadata && isset($media['url']) && isset($mediadata[ $media['url'] ]) && !empty($mediadata[ $media['url'] ]) ) {
 
 					fwrite( $fh, base64_decode( $mediadata[ $media['url'] ] ) );
 				}
@@ -429,28 +429,30 @@ function importSinglePage(&$page, &$mediadata = null) {
 					);
 
 					$id = @media_handle_sideload( $file, 0 );
+					if (!is_wp_error($id)) {
 
-					fclose($fh);
-					if (file_exists($fpath))
-						@unlink($fpath);
+						fclose($fh);
+						if (file_exists($fpath))
+							@unlink($fpath);
 
-					$new_url = wp_get_attachment_url( $id );
+						$new_url = wp_get_attachment_url( $id );
 
-					if ($media['type'] == "image") {
+						if ($media['type'] == "image") {
 
-						if ($img = image_get_intermediate_size($id, 'large')) {
-							$new_url = $img['url'];
+							if ($img = image_get_intermediate_size($id, 'large')) {
+								$new_url = $img['url'];
+							}
+
 						}
 
-					}
+						if (isset($media['zone'])) {
 
-					if (isset($media['zone'])) {
+							$meta['content'][ $media['zone'] ][ $media['state'] ]['data'][ $media['key'] ] = $new_url;
+						}
+						else if (isset($media['path'])) {
 
-						$meta['content'][ $media['zone'] ][ $media['state'] ]['data'][ $media['key'] ] = $new_url;
-					}
-					else if (isset($media['path'])) {
-
-						updateMetaFromPath($meta, $media["path"], $new_url);
+							updateMetaFromPath($meta, $media["path"], $new_url);
+						}
 					}
 				}
 			}
