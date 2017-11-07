@@ -27,7 +27,7 @@ class ImportExport {
         // added option for gz compression
         add_option('mpatImportExport', '');
 
-        add_settings_section(  
+        add_settings_section(
 			'importexport_settings_section',
 			__('Import Export', "mpat-importexport"),
 			function(){
@@ -46,11 +46,11 @@ class ImportExport {
             },
 			'general',
 			'importexport_settings_section',
-			array('mpatImportExport')  
-		); 
+			array('mpatImportExport')
+		);
         register_setting('general', 'mpatImportExport','esc_attr');
 
-        
+
         //register_setting('mpatImportExport-settings-group', 'mpatImportExport' );
     }
 
@@ -236,7 +236,7 @@ class ImportExport {
                         $all = ImportExport::getAll();
                         $first_model = false;
 
-                        echo "<tr><td colspan='100'><b>"._e('Pages', 'mpat-importexport')."</b></td></tr>";
+                        echo "<tr><td colspan='100'><b>".translate('Pages', 'mpat-importexport')."</b></td></tr>";
 
                         foreach ($all as $o)  {
                             if (isset($o['page'])) {
@@ -245,7 +245,7 @@ class ImportExport {
 
                                 if (!$first_model) {
                                     if ($o['page']['post_type'] == 'page_model') {
-                                        echo "<tr><td colspan='100'><b>"._e('Page Models', 'mpat-importexport')."</b></td></tr>";
+                                        echo "<tr><td colspan='100'><b>".translate('Page Models', 'mpat-importexport')."</b></td></tr>";
                                         $first_model = true;
                                     }
                                 }
