@@ -26,7 +26,32 @@ class ImportExport {
 
         // added option for gz compression
         add_option('mpatImportExport', '');
-        register_setting('mpatImportExport-settings-group', 'mpatImportExport' );
+
+        add_settings_section(
+			'importexport_settings_section',
+			__('Import Export', "mpat-importexport"),
+			function(){
+                _e('Use compression during import and export', "mpat-newpage-wizard");
+            },
+			'general'
+		);
+		add_settings_field(
+			'mpatImportExport',
+			__('Compression', "mpat-newpage-wizard"),
+			function($args){
+                $option = get_option($args[0],'');
+                $cmp = strcmp($option , "on");
+                $chk = ($cmp == 0) ? 'checked' : '';
+                echo '<input type="checkbox" id="'. $args[0] .'" name="'. $args[0] .'" '. $chk .' />';
+            },
+			'general',
+			'importexport_settings_section',
+			array('mpatImportExport')
+		);
+        register_setting('general', 'mpatImportExport','esc_attr');
+
+
+        //register_setting('mpatImportExport-settings-group', 'mpatImportExport' );
     }
 
     function import_export_onload() {
@@ -76,7 +101,7 @@ class ImportExport {
         <script src="<?php echo plugin_dir_url(__FILE__); ?>mpat_import_export.js" > </script>
 
         <div style="" >
-        <details id="options">
+    <!--    <details id="options">
         <summary><?php _e('Options','mpat-importexport'); ?></summary>
 
         <form method="post" action="./options.php">
@@ -85,7 +110,7 @@ class ImportExport {
         <table class="form-table" style="width: 300px; border-width: 1px;">
             <tr>
             <td>
-                <td><?php _e('Use compression while import and export','mpat-importexport') ?></td>
+                <td><?php _e('Use compression during import and export','mpat-importexport') ?></td>
                 <td><input type="checkbox" name="mpatImportExport" <?php echo $zipped ?> /></td>
             </tr>
             <tr>
@@ -98,7 +123,7 @@ class ImportExport {
 
         </form>
 
-        </details>
+        </details>-->
         </div>
 
         <div id="toolbarzone">
@@ -211,7 +236,7 @@ class ImportExport {
                         $all = ImportExport::getAll();
                         $first_model = false;
 
-                        echo "<tr><td colspan='100'><b>"._e('Pages', 'mpat-importexport')."</b></td></tr>";
+                        echo "<tr><td colspan='100'><b>".translate('Pages', 'mpat-importexport')."</b></td></tr>";
 
                         foreach ($all as $o)  {
                             if (isset($o['page'])) {
@@ -220,7 +245,7 @@ class ImportExport {
 
                                 if (!$first_model) {
                                     if ($o['page']['post_type'] == 'page_model') {
-                                        echo "<tr><td colspan='100'><b>"._e('Page Models', 'mpat-importexport')."</b></td></tr>";
+                                        echo "<tr><td colspan='100'><b>".translate('Page Models', 'mpat-importexport')."</b></td></tr>";
                                         $first_model = true;
                                     }
                                 }

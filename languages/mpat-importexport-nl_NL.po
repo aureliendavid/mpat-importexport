@@ -5,120 +5,137 @@ msgstr ""
 "Project-Id-Version: MPAT ImportExport 1.0.beta\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mpat-"
 "importexport\n"
-"POT-Creation-Date: 2017-09-15 12:09:21+00:00\n"
-"PO-Revision-Date: 2017-09-17 21:11+0200\n"
+"POT-Creation-Date: 2017-10-19 14:34+0200\n"
+"PO-Revision-Date: 2017-10-19 14:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 1.8.11\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ImportExport.php:25
 msgid "ImportExport"
-msgstr ""
+msgstr "ImportExport"
 
-#: ImportExport.php:74
+#: ImportExport.php:32
+msgid "Import Export"
+msgstr "Import Export"
+
+#: ImportExport.php:34 ImportExport.php:113
+msgid "Use compression during import and export"
+msgstr ""
+"Gebruik van compressie tijdens het importeren en exporteren"
+
+#: ImportExport.php:40
+msgid "Compression"
+msgstr "Compressie"
+
+#: ImportExport.php:99
 msgid "MPAT Importer/Exporter for"
 msgstr "MPAT Import/Export voor"
 
-#: ImportExport.php:80
+#: ImportExport.php:105
 msgid "Options"
 msgstr "Opties"
 
-#: ImportExport.php:88
-msgid "Use compression while import and export"
-msgstr "Gebruik compressie tijdens import en export"
-
-#: ImportExport.php:115
+#: ImportExport.php:140
 msgid "Import new pages"
 msgstr "Importeer nieuwe paginas"
 
-#: ImportExport.php:116
+#: ImportExport.php:141
 msgid "Import"
 msgstr "Importeer"
 
-#: ImportExport.php:127
+#: ImportExport.php:152
 msgid "Import new layouts"
 msgstr "Importeer nieuwe opmaak"
 
-#: ImportExport.php:128
+#: ImportExport.php:153
 msgid "Import Layouts"
 msgstr "Imp. Opmaak"
 
-#: ImportExport.php:140
+#: ImportExport.php:165
 msgid "Export all pages"
 msgstr "Exporteer alle paginas"
 
-#: ImportExport.php:141
+#: ImportExport.php:166
 msgid "Export ALL"
 msgstr "Exp. ALLES"
 
-#: ImportExport.php:146
+#: ImportExport.php:171
 msgid "Export selected pages and media"
 msgstr "Exporteer geselecteerde paginas en media"
 
-#: ImportExport.php:147
+#: ImportExport.php:172
 msgid "Exp. Selected w. Media"
 msgstr "Exp. selectie & media"
 
-#: ImportExport.php:152
+#: ImportExport.php:177
 msgid "Export selected pages"
 msgstr "Exporteer pagina selectie"
 
-#: ImportExport.php:153
+#: ImportExport.php:178
 msgid "Exp. Selected"
 msgstr "Exp. Selectie"
 
-#: ImportExport.php:158
+#: ImportExport.php:183
 msgid "Export layouts of selected pages"
 msgstr "Opmaak exporteren van geselecteerde pagina's"
 
-#: ImportExport.php:159
+#: ImportExport.php:184
 msgid "Exp. Layouts"
 msgstr ""
 
-#: ImportExport.php:185
+#: ImportExport.php:210
 msgid "Page export settings"
 msgstr "Pagina export instellingen"
 
-#: ImportExport.php:188
+#: ImportExport.php:213
 msgid "Include local media"
 msgstr "Inclusief lokale media"
 
-#: ImportExport.php:191
+#: ImportExport.php:216
 msgid "Include timeline options (dsmcc, timeline_scenario)"
 msgstr "Inclusief tijdlijnopties (dsmcc, timeline_scenario)"
 
-#: ImportExport.php:194
+#: ImportExport.php:219
 msgid "Include custom styles"
 msgstr "Inclusief aangepaste stijlen"
 
-#: ImportExport.php:202
+#: ImportExport.php:227
 msgid "Title"
 msgstr "Titel"
 
-#: ImportExport.php:203
+#: ImportExport.php:228
 msgid "Id"
 msgstr "ID"
 
-#: ImportExport.php:204
+#: ImportExport.php:229
 msgid "Layout"
 msgstr "Opmaak"
 
-#: ImportExport.php:205
+#: ImportExport.php:230
 msgid "Map"
 msgstr "Voorbeeld"
 
-#: ImportExport.php:206
+#: ImportExport.php:231
 msgid "Export"
+msgstr ""
+
+#: ImportExport.php:239
+msgid "Pages"
+msgstr ""
+
+#: ImportExport.php:248
+msgid "Page Models"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
 msgid "MPAT ImportExport"
-msgstr ""
+msgstr "MPAT InvoerUitvoer"
 
 #. Plugin URI of the plugin/theme
 msgid "https://github.com/aureliendavid/mpat-importexport/"
@@ -135,6 +152,9 @@ msgstr ""
 #. Author URI of the plugin/theme
 msgid "https://github.com/aureliendavid/"
 msgstr ""
+
+#~ msgid "Use compression while import and export"
+#~ msgstr "Gebruik compressie tijdens import en export"
 
 #~ msgid "Compress files"
 #~ msgstr "Maak gebruik van gecomprimeerde import-export bestanden"

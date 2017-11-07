@@ -6,12 +6,15 @@ use MPAT\ImportExport\ImportExport;
 $nullGuard = null;
 
 function getcontents($postType, $zipped){
-	if($zipped)
-	{
-		$json = gzuncompress(file_get_contents( $_FILES[$postType]['tmp_name']));
+	$json = null;
+	$data = file_get_contents( $_FILES[$postType]['tmp_name']);
+	if($zipped) {	
+		set_error_handler(function() {});
+		$json = gzuncompress($data);
+		restore_error_handler();
 	}
-	else{
-		$json = file_get_contents( $_FILES[$postType]['tmp_name'] );
+	if($json == null) { // fallback to uncompressed import
+		$json = $data;
 	}
 	$page = json_decode($json, true);
 	return $page;
